@@ -1,11 +1,13 @@
+
 import './App.css'
-import LoginPage from './LoginPage'
+
+
 
 function App() {
 
   return (
     <div>
-      <LoginPage/>
+      <h1>Welcome to TicketEase</h1>
     </div>
   )
 }
