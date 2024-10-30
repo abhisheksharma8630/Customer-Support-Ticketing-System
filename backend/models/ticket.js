@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const ticketSchema = new mongoose.Schema({
   title: {
-    type: String,
+    type: String, 
     required: true,
   },
   description: {
@@ -34,14 +34,13 @@ const ticketSchema = new mongoose.Schema({
   },
   updatedAt: {
     type: Date,
-    default: Date.now,
   },
   category: {
     type: String,
     enum: ['technical', 'billing', 'general', 'account', 'other'],
     default: 'general',
   },
-  attachments: [
+  attachments: [ 
     {
       fileUrl: String,
       fileType: String,
@@ -83,4 +82,4 @@ const ticketSchema = new mongoose.Schema({
   ],
 });
 
-module.exports = mongoose.model('Ticket', ticketSchema);
+export const Ticket = mongoose.model('Ticket', ticketSchema);
