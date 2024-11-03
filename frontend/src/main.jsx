@@ -11,23 +11,36 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Dashboard from '../pages/dashboard/Dashboard.jsx'
+import Navbar from '../components/navbar.jsx'
+import ProtectedRoute from '../components/protectedRoute.jsx'
+
+const MainLayout = ({children})=>(
+  <div>
+    <Navbar/>
+    {children}
+  </div>
+)
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Chat/>,
+    path:"/",
+    element:<MainLayout><App/></MainLayout>
+  },
+  {
+    path: "/ticket",
+    element: <ProtectedRoute><MainLayout><Chat/></MainLayout></ProtectedRoute>,
   },
   {
     path:"/login",
-    element: <Login/>,
+    element:<MainLayout> <Login/></MainLayout>,
   },
   {
     path:"/dashboard",
-    element:<Dashboard/>
+    element:<ProtectedRoute><MainLayout><Dashboard/></MainLayout></ProtectedRoute>
   },
   {
     path:"/signup",
-    element:<Signup/>
+    element:<MainLayout><Signup/></MainLayout>
   }
 ]);
 

@@ -16,7 +16,7 @@ const ticketSchema = new mongoose.Schema({
   },
   agent: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', 
+    ref: 'Agent', 
   },
   status: {
     type: String,

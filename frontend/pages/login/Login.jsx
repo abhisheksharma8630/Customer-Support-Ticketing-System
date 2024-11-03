@@ -2,8 +2,10 @@ import React from 'react'
 import { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie'
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
+  const navigate = useNavigate(); // Import the useNavigate hook from react-router-dom
   const[login,setLogin]= useState({
     email:'',
     password:'',
@@ -17,6 +19,7 @@ const handleSubmit = async (e)=>{
     const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/login`,login);
     if(response.status === 201){
       Cookies.set('accessToken',response.data.token);
+      navigate("/dashboard");
     }
     console.log(response);
 }

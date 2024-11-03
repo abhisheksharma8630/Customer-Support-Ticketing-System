@@ -1,9 +1,13 @@
 import { Router } from "express";
-import {login, signup} from "../controller/user.controller.js"
+import {assignAgent, getAgents, login, logout, signup, verifyToken} from "../controller/user.controller.js"
 const router = Router();
 
 router.route("/signup").post(signup)
 router.route("/login").post(login)
-router.route("/logout").post()
+router.route("/logout").get(logout)
+router.route("/verifyToken").post(verifyToken)
+router.route("/getAgents").get(getAgents)
+router.route("/assignAgent").post(assignAgent)
+
 
 export default router;
