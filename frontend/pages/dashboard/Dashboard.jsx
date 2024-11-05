@@ -40,7 +40,7 @@ export default function Dashboard() {
   },[])
   return (
     <div>
-      {role === 'agent' && <AgentDashboard tickets={tickets} />}
+      {role === 'agent' && <AgentDashboard/>}
       {role === 'admin' && <AdminDashboard tickets={tickets} />}
       {role === 'customer' && <CustomerDashboard tickets={tickets} />}
       {/* Add your other dashboard components here */}

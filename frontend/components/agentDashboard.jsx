@@ -2,7 +2,19 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 
-export default function AgentDashboard({tickets}) {
+export default function AgentDashboard() {
+  const [tickets,setTickets] = useState([]);
+
+  const fetchTickets = async()=>{
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/ticket`,{headers:{
+      Authorization:`Bearer ${Cookies.get('accessToken')}`
+    }});
+    setTickets(response.data);
+  }
+  useEffect(()=>{
+    fetchTickets();
+  },[])
+
   const truncateText = (text, length) => {
     return text.length > length ? text.substring(0, length) + '...' : text;
   };

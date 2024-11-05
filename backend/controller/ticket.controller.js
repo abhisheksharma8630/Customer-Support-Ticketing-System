@@ -16,7 +16,12 @@ export const createTicket = async (req,res)=>{
 
 export const getTickets = async(req,res)=>{
     let tickets;
-    if(req.user.user.role === "agent" || req.user.user.role === "admin"){
+    if(req.user.user.role === "agent"){
+        tickets = await Ticket.find({agent:req.user.user._id}).populate({
+            path:"customer",
+            select:"-password"
+        })
+    }else if(req.user.user.role === "admin"){
         tickets = await Ticket.find().populate({
             path:"customer",
             select:"-password"
