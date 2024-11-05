@@ -24,7 +24,7 @@ const handleSubmit = async (e)=>{
     console.log(response);
 }
   return (
-    <div>
+    <div className='aman-login-container'>
       <form action="" onSubmit={handleSubmit}>
         <label htmlFor="email">Email</label> <br />
         <input type="text" id='email' name='email' value={login.email} onChange={handleChange}/> <br />
