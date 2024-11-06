@@ -1,4 +1,5 @@
 import {Ticket} from '../models/ticket.js';
+import setPriority from '../utils/setPriority.js';
 
 export const createTicket = async (req,res)=>{
     const {title,description,category} = req.body;
@@ -8,9 +9,9 @@ export const createTicket = async (req,res)=>{
         category,
         customer:req.user.user,
     })
+    ticket.priority = setPriority(description);
     await ticket.save();
     console.log(ticket);
-
     res.send("Ticket created successfully");
 }
 
@@ -25,6 +26,10 @@ export const getTickets = async(req,res)=>{
         tickets = await Ticket.find().populate({
             path:"customer",
             select:"-password"
+        })
+        tickets = tickets.sort((a,b)=>{
+            const priorityOrder = {'high':1,'medium':2,'low':3}
+            return priorityOrder[a.priority] - priorityOrder[b.priority]
         })
     }else{
         tickets = await Ticket.find({ customer: req.user.user._id }).populate({
