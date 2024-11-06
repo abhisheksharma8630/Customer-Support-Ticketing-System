@@ -9,16 +9,20 @@ export default function Navbar() {
     navigate('/login');
   }
   return (
-    <div>
-        <nav>
-          <ul style={{display:"flex",gap:"1rem"}}>
+    <div className='navbar_create'>
+      <div className='navbar_left'>
+          <h1>Ticket Ease</h1>
+      </div>
+        <div className='navbar_right'>
+          <ul style={{display:"flex",gap:"2rem",alignItems:"center"}}>
             <a href='/dashboard'>Dashboard</a>
             <a href='/login'>Login</a>
             <a href='/signup'>Signup</a>
             <a href='/ticket'>Raise Ticket</a>
             <button onClick={logout}>Logout</button >
           </ul>
-        </nav>
+        </div>
+
     </div>
   )
 }
