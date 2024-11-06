@@ -1,0 +1,181 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.login_container{
+    height: 85vh;
+    display: flex;
+}
+
+.login_left{
+    width: 50%;
+    height: 100%;
+}
+
+img{
+    height: 100%;
+    width: 100%;
+}
+
+.login_right{
+    width: 50%;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+
+
+.toggle-btn{
+    background: none;
+    color: #4a90e2;
+    border: none;
+    cursor: pointer;
+    
+}
+
+#login-btn{
+    color: #f06;
+}
+
+
+.active-btn{
+    background-color: #4a90e2;
+    border:1px solid skyblue;
+    border-radius: 1rem;
+    height: 50px;
+    width: 250px;
+    color: white;
+    font-size: 140%;
+    cursor: pointer;
+}
+
+.form h2{
+    padding: 4% 0 4% 4% ;
+    font-size: 250%;
+}
+.form input{
+    height: 50px;
+    width: 85%;
+    margin-left: 4%;
+    border-radius: 1 rem;
+    margin-bottom: 5%;
+    font-size: 110%;
+    
+}
+#signup-from input{
+    margin-bottom: 2%;
+}
+.btn-login{
+    height: 50px;
+    width: 85%;
+    margin-bottom: 2%;
+    margin-left: 4%;
+    font-size: 150%;
+    background-color: #4a90e2;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+.btn-login:hover{
+    background-color: #f06;
+}
+.hidden{
+    display: none;
+}
+
+.login_left{
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+}
+.login_left img{
+    position: absolute;
+    transition: 0.5s ease;
+}
+
+
+.login_last{
+    padding-top: 4%;
+    text-align: center;
+}
+
+.login_container input{
+    padding-left: 2%;
+}
+
+.login_container label{
+    padding-left: 4%;
+    font-size: 120%;
+}
+#role{
+    margin: 1% 0 4% 2%;
+}
+
+
+/* navbar */
+
+.navbar_create{
+    height: 80px;
+    display: flex;
+    background-color: rgb(158, 155, 155);
+}
+.navbar_create a{
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 120%;
+    color: black;
+}
+
+.navbar_create a:hover{
+    color: #f06;
+}
+
+.navbar_create button{
+    width: 100px;
+    height: 2rem;
+    font-size: 120%;
+    cursor: pointer;
+    background-color: black;
+    color: aliceblue;
+    border: none;
+    border-radius: 2rem;
+}
+
+.navbar_create button:hover{
+  
+    background-color: white;
+    color:#f06;
+}
+
+.navbar_left{
+    width: 50%;
+    display: flex;
+    align-items: center;
+}
+.navbar_right{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#show_pass{
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+    padding-top: 2%;
+}
+
+@media (max-width: 600px) {
+    .login_left{
+        display: none;
+    }
+    .login_right{
+        width: 100%;
+    }
+
+ 
+}
+
