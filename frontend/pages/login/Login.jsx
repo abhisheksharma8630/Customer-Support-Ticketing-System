@@ -53,7 +53,7 @@ const handleSubmit = async (e)=>{
                 <label htmlFor="email">Email</label> <br />
               <input type="text" id='email' name='email' value={login.email} placeholder="Email" onChange={handleChange} class="login-email"/> <br />
               <label htmlFor="password" >Password</label> <br />
-              <input type="text" id='password' name='password' value={login.password}  placeholder="Password" onChange={handleChange} class="login-pass"/> <br />
+              <input type="password" id='password' name='password' value={login.password}  placeholder="Password" onChange={handleChange} class="login-pass"/> <br />
               <button class="btn-login">Login</button>
             </form>
             <div className="login_last">

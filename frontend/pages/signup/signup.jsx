@@ -16,9 +16,14 @@ export default function signup() {
     const handleSubmit = async (e)=>{
         e.preventDefault();
         const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/signup`,user);
+        document.getElementById("name").value = "";
+        document.getElementById("password").value = "";
+        document.getElementById("email").value = "";
+        window.location.href = "/login"; 
+        alert('Your account has been creted successfully');
         console.log(response)
     }
-
+    
     const handleClick = () => {
         const passw = document.querySelector('#password');
         if (passw.type === 'password') {
@@ -77,7 +82,7 @@ export default function signup() {
                   <option value="agent">Agent</option>
                   <option value="admin">Admin</option>
               </select><br />
-              <button type='submit' id="signup-btn" class="btn-login">Submit</button>
+              <button type='submit' id="signup-btn" class="btn-login" >Submit</button>
           </form>
 
           <div className="login_last">

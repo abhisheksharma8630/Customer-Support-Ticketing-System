@@ -119,7 +119,7 @@ img{
 .navbar_create{
     height: 80px;
     display: flex;
-    background-color: rgb(158, 155, 155);
+    background-color: rgb(235, 232, 232);
 }
 .navbar_create a{
     cursor: pointer;
@@ -154,6 +154,10 @@ img{
     display: flex;
     align-items: center;
 }
+.navbar_left h1{
+    font-size: 200%;
+    color: #f06;
+}
 .navbar_right{
     width: 50%;
     display: flex;
@@ -175,7 +179,15 @@ img{
     .login_right{
         width: 100%;
     }
-
+    .navbar_left h1{
+        font-size: 150%;
+    }
+    #nav_login{
+        display: none;
+    }
+    #nav_signup{
+        display: none;
+    }
  
 }
 
