@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import {Ticket} from '../models/ticket.js';
+import {Agent} from '../models/user.js'
 import setPriority from '../utils/setPriority.js';
 
 export const createTicket = async (req,res)=>{
@@ -105,3 +106,76 @@ export const getTicket = async (req,res)=>{
         res.status(500).json({ message: "An error occurred while fetching the ticket" });
       }
 }
+
+
+export const addTicketHistory = async (req, res) => {
+  const ticketId = req.params.id;
+  const { status, updatedBy, notes } = req.body;
+
+  if (!ticketId || !status || !updatedBy) {
+    return res.status(400).json({ message: 'ticketId, status, and updatedBy are required.' });
+  }
+
+  // Start a session for transaction
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    // Fetch the ticket to check its current status
+    const ticket = await Ticket.findById(ticketId).session(session);
+
+    if (!ticket) {
+      return res.status(404).json({ message: 'Ticket not found' });
+    }
+
+    // Check if the ticket is closed
+    if (ticket.status === 'closed') {
+      return res.status(400).json({ message: 'Updates are not allowed on closed tickets.' });
+    }
+
+    const update = {
+      $push: {
+        history: {
+          status,
+          updatedBy,
+          notes,
+        },
+      },
+      status: status,
+    };
+
+    // Update ticket with the new status and history
+    const updatedTicket = await Ticket.findByIdAndUpdate(ticketId, update, { new: true, session })
+      .populate('history.updatedBy', 'name'); // Populate only the 'name' field of updatedBy
+
+    if (!updatedTicket) {
+      throw new Error('Ticket update failed');
+    }
+
+    // If the status is "closed" or "resolved," set the agent as available
+    if (status === 'closed' || status === 'resolved') {
+      const agentUpdate = await Agent.findByIdAndUpdate(ticket.agent, { isAvailable: true }, { new: true, session });
+
+      if (!agentUpdate) {
+        throw new Error('Agent update failed');
+      }
+    }
+
+    // Commit the transaction
+    await session.commitTransaction();
+    session.endSession();
+
+    // Respond with the updated ticket
+    res.status(200).json({
+      message: 'Ticket history updated successfully',
+      ticket: updatedTicket,
+    });
+
+  } catch (error) {
+    // Abort the transaction on error
+    await session.abortTransaction();
+    session.endSession();
+    console.error('Error updating ticket history:', error);
+    res.status(500).json({ message: 'Failed to update ticket history', error: error.message });
+  }
+};
