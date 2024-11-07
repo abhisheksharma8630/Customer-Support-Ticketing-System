@@ -13,6 +13,7 @@ import {
 import Dashboard from '../pages/dashboard/Dashboard.jsx'
 import Navbar from '../components/navbar.jsx'
 import ProtectedRoute from '../components/protectedRoute.jsx'
+import TicketPage from '../pages/Ticket/ticket.jsx'
 
 const MainLayout = ({children})=>(
   <div>
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/ticket",
     element: <ProtectedRoute><MainLayout><Chat/></MainLayout></ProtectedRoute>,
+  },
+  {
+    path:"/ticket/:id",
+    element: <ProtectedRoute><MainLayout><TicketPage/></MainLayout></ProtectedRoute>
   },
   {
     path:"/login",

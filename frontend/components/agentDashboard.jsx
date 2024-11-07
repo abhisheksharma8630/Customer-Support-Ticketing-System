@@ -36,8 +36,11 @@ export default function AgentDashboard() {
       </thead>
       <tbody>
         {tickets.map((ticket,idx) => (
+          
           <tr key={idx}>
+            <a href={`/ticket/${ticket._id}`}>
             <td>{truncateText(ticket.title, 25)}</td>
+            </a>
             <td>{truncateText(ticket.description, 30)}</td>
             <td>{ticket.customer.name}</td>
             <td>{ticket.customer.email}</td>

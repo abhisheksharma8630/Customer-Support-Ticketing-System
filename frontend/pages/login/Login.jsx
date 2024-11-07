@@ -16,12 +16,20 @@ const handleChange = (e)=>{
 }
 const handleSubmit = async (e)=>{
     e.preventDefault();
-    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/login`,login);
-    if(response.status === 201){
-      Cookies.set('accessToken',response.data.token);
-      navigate("/dashboard");
+    try{
+
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/login`,login);
+      console.log(response);
+      if(response.status === 200){
+        alert('Login Successful')
+        Cookies.set('accessToken',response.data.token);
+        navigate("/dashboard");
+      }
+    }catch(error){
+      if(error){
+        alert(error.response.data.message);
+      }
     }
-    console.log(response);
 }
   return (
     <div className='login_container'>
@@ -32,32 +40,25 @@ const handleSubmit = async (e)=>{
         <input type="text" id='password' name='password' value={login.password} onChange={handleChange}/> <br />
         <button>Submit</button>
       </form> */}
-      <div class="login_left">
+      <div className="login_left">
             
-                <img src="https://img.freepik.com/premium-vector/customer-service-representative-working-laptop-with-headset_1305385-80877.jpg" class="slider" alt=""/>
-                {/* <img src="https://media.istockphoto.com/id/1366023601/photo/cropped-shot-of-an-attractive-young-female-call-center-agent-working-in-her-office.jpg?s=612x612&w=0&k=20&c=qvv5Fnh0eE5S0n8ARf0ZTqfFPGSs-nX41xnGsABfOZg=" class="slider" alt=""/> */}
-                {/* <img src="https://img.freepik.com/premium-photo/customer-support-team-providing-assistance-from-modern-call-center-daytime-hours_1143476-3349.jpg?semt=ais_hybrid" class="slider" alt=""/> */}
+                <img src="https://img.freepik.com/premium-vector/customer-service-representative-working-laptop-with-headset_1305385-80877.jpg" className="slider" alt=""/>
+                {/* <img src="https://media.istockphoto.com/id/1366023601/photo/cropped-shot-of-an-attractive-young-female-call-center-agent-working-in-her-office.jpg?s=612x612&w=0&k=20&c=qvv5Fnh0eE5S0n8ARf0ZTqfFPGSs-nX41xnGsABfOZg=" className="slider" alt=""/> */}
+                {/* <img src="https://img.freepik.com/premium-photo/customer-support-team-providing-assistance-from-modern-call-center-daytime-hours_1143476-3349.jpg?semt=ais_hybrid" className="slider" alt=""/> */}
             
         </div>
-        <div class="login_right">
-            {/* <div class="login_btn">
-                <button id="login-btn" class="toggle-btn">Login</button>
-                
-            </div> */}
-            {/* <div class="loginUser">
-                <button id="user-btn" class="active-btn">User</button>
-                <button id="agent-btn" class="active-btn">Agent</button>
-            </div> */}
-            <form id="login-form" class="form " onSubmit={handleSubmit}>
+        <div className="login_right">
+           
+            <form id="login-form" className="form " onSubmit={handleSubmit}>
                 <h2>Login</h2>
                 <label htmlFor="email">Email</label> <br />
-              <input type="text" id='email' name='email' value={login.email} placeholder="Email" onChange={handleChange} class="login-email"/> <br />
+              <input type="text" id='email' name='email' value={login.email} placeholder="Email" onChange={handleChange} className="login-email"/> <br />
               <label htmlFor="password" >Password</label> <br />
-              <input type="text" id='password' name='password' value={login.password}  placeholder="Password" onChange={handleChange} class="login-pass"/> <br />
-              <button class="btn-login">Login</button>
+              <input type="text" id='password' name='password' value={login.password}  placeholder="Password" onChange={handleChange} className="login-pass"/> <br />
+              <button className="btn-login">Login</button>
             </form>
             <div className="login_last">
-              <p>Do not have any account? <a href='/signup' id="signup-btn" class="toggle-btn">Sign Up</a></p>
+              <p>Do not have any account? <a href='/signup' id="signup-btn" className="toggle-btn">Sign Up</a></p>
             </div>
         </div>
 

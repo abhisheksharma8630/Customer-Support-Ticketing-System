@@ -5,28 +5,66 @@ import {generateToken} from '../utils/generateToken.js';
 import jwt from 'jsonwebtoken'
 
 export const signup = async (req,res)=>{
-    const {name,email,password,role} = req.body;
-    if(role === 'agent'){
-        const agent = new Agent({name,email,password,role});
-        await agent.save()
-        res.send("agent signup successfully");
-    }else{
-        const user = new User({name,email,password,role});
-        await user.save();
-        res.send("User signup successful");
+    try {
+        const { name, email, password, role } = req.body;
+
+        // Check if all fields are provided
+        if (!name || !email || !password || !role) {
+            return res.status(400).json({ error: "All fields are required" });
+        }
+
+        // Check if email already exists in either Agent or User collection
+        const existingUser = await Agent.findOne({ email }) || await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ error: "User with this email already exists" });
+        }
+        // Determine the role and save to the respective collection
+        if (role === 'agent') {
+            const agent = new Agent({ name, email, password, role });
+            await agent.save();
+            res.status(201).json({ message: "Agent signup successful" });
+        } else if(role === 'customer') {
+            const user = new User({ name, email, password, role });
+            await user.save();
+            res.status(201).json({ message: "User signup successful" });
+        }else{
+            return res.status(403).json({ error: "Unauthorized role" });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
     }
 }
 
 export const login = async (req,res)=>{
-    const {email,password} = req.body;
-    const user = await User.findOne({email})
-    if(!user) return res.status(400).send("User doesn't exist")
-
-    const isMatch = password === user.password
-    if (!isMatch) return res.status(400).send('Wrong Password');
-
-    const token = generateToken(user);
-    res.status(201).send({token,user});
+    try {
+        const { email, password } = req.body;
+    
+        // Check if email and password are provided
+        if (!email || !password) {
+          return res.status(400).json({ message: "Email and password are required" });
+        }
+    
+        // Find user by email
+        const user = await User.findOne({ email });
+        if (!user) {
+          return res.status(404).json({ message: "User does not exist" });
+        }
+    
+        // Verify password
+        const isMatch = password === user.password; // Ideally use bcrypt for hashing
+        if (!isMatch) {
+          return res.status(401).json({ message: "Incorrect password" });
+        }
+    
+        // Generate token
+        const token = generateToken(user);
+        res.status(200).json({ token, user });
+        
+      } catch (error) {
+        console.error("Login error:", error);
+        res.status(500).json({ message: "An error occurred while logging in" });
+      }
 }
 
 export const verifyToken = async (req,res)=>{

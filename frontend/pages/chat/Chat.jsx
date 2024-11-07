@@ -16,12 +16,18 @@ export default function Chat() {
 
   const handleSubmit = async (e)=>{
     e.preventDefault();
-    const response = await axios.post('http://localhost:8000/ticket',ticket,{
-      headers:{
-        Authorization:`Bearer ${Cookies.get('accessToken')}`
+    try{
+      const response = await axios.post('http://localhost:8000/ticket',ticket,{
+        headers:{
+          Authorization:`Bearer ${Cookies.get('accessToken')}`
+        }
+      });
+      alert(response.data.message);
+    }catch(error){
+      if(error){
+        alert(error.response.data.message);
       }
-    });
-    console.log(response);
+    }
   }
   return (
     <div>

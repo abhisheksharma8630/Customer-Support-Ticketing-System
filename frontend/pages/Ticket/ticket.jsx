@@ -80,7 +80,8 @@ const TicketPage = ({ userRole }) => {
   useEffect(() => {
     const fetchTicket = async () => {
       try {
-        const response = await axios.get(`/api/tickets/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/ticket/${id}`);
+        console.log(response)
         setTicket(response.data);
       } catch (error) {
         console.error("Error fetching ticket:", error);
@@ -89,7 +90,7 @@ const TicketPage = ({ userRole }) => {
       }
     };
 
-    // fetchTicket();
+    fetchTicket();
   }, [id]);
 
   if (loading) return <p>Loading...</p>;
@@ -114,7 +115,7 @@ const TicketPage = ({ userRole }) => {
       </div>
 
       {/* Attachments */}
-      {ticket.attachments.length > 0 && (
+      {/* {ticket.attachments.length > 0 && (
         <div className="attachments">
           <h2>Attachments</h2>
           <ul>
@@ -127,10 +128,10 @@ const TicketPage = ({ userRole }) => {
             ))}
           </ul>
         </div>
-      )}
+      )} */}
 
       {/* Comments Section */}
-      <div className="comments">
+      {/* <div className="comments">
         <h2>Comments</h2>
         <ul>
           {ticket.comments.map((comment, index) => (
@@ -140,10 +141,10 @@ const TicketPage = ({ userRole }) => {
             </li>
           ))}
         </ul>
-      </div>
+      </div> */}
 
       {/* History Section */}
-      {userRole === 'admin' && ticket.history.length > 0 && (
+      {/* {userRole === 'admin' && ticket.history.length > 0 && (
         <div className="history">
           <h2>Ticket History</h2>
           <ul>
@@ -157,7 +158,7 @@ const TicketPage = ({ userRole }) => {
             ))}
           </ul>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
