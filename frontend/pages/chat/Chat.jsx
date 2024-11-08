@@ -30,22 +30,39 @@ export default function Chat() {
     }
   }
   return (
-    <div>
-      <form action="" onSubmit={handleSubmit}>
-        <label htmlFor="title">Title</label> <br />
-        <input type="text" id='title' name='title' value={ticket.title} onChange={handleChange}/> <br />
-        <label htmlFor="description">Description</label> <br />
-        <input type="text" id='description' name='description' value={ticket.description} onChange={handleChange}/> <br />
-        <label htmlFor="category">Category</label> <br />
-        <select name="category" id="category" value={ticket.category} onChange={handleChange}>
-          <option value="technical">technical</option>
-          <option value="billing">billing</option>
-          <option value="general">general</option>
-          <option value="account">account</option>
-          <option value="other">other</option>
-        </select> <br />
-        <button>Submit</button>
-      </form>
+    <div className='container'>
+      <div className='ticket_raise_form'>
+        <form action="" onSubmit={handleSubmit}>
+          <h2><b>Raise your ticket here!</b></h2>
+          <br />
+          <label htmlFor="usrname">UserName : </label>
+          <input placeholder='Enter your username...' type="text" id='usrname' name='usrname' value={ticket.usrname} onChange={handleChange}/>
+          <br />
+          <br/>
+          <label htmlFor="usremail">Email : </label>
+          <input placeholder='Enter your email...' type="email" id='email' name='email' value={ticket.email} onChange={handleChange}/>
+          <br />
+          <br />
+          <label htmlFor="title">Title : </label>
+          <input placeholder='Enter title...' type="text" id='title' name='title' value={ticket.title} onChange={handleChange}/> 
+          <br />
+          <br />
+          <label htmlFor="description">Description : </label> 
+          <br />
+          <textarea placeholder='Write your ticket here...' name="description" id="description" value={ticket.description} onChange={handleChange}></textarea>
+          <br />
+          <br />
+          <label htmlFor="category">Category</label>
+          <select name="category" id="category" value={ticket.category} onChange={handleChange}>
+            <option value="technical">technical</option>
+            <option value="billing">billing</option>
+            <option value="general">general</option>
+            <option value="account">account</option>
+            <option value="other">other</option>
+          </select>
+          <button>Submit</button>
+        </form>
+      </div>
     </div>
   )
 }
