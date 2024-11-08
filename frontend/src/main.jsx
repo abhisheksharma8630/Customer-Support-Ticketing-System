@@ -1,6 +1,5 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import Chat from '../pages/chat/Chat'
 import Login from '../pages/login/Login'
 import Signup from '../pages/signup/signup.jsx'
 import App from './App.jsx'
@@ -14,6 +13,7 @@ import Dashboard from '../pages/dashboard/Dashboard.jsx'
 import Navbar from '../components/navbar.jsx'
 import ProtectedRoute from '../components/protectedRoute.jsx'
 import TicketPage from '../pages/Ticket/ticket.jsx'
+import RaiseTicket from '../pages/chat/Chat'
 
 const MainLayout = ({children})=>(
   <div>
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/ticket",
-    element: <ProtectedRoute><MainLayout><Chat/></MainLayout></ProtectedRoute>,
+    element: <MainLayout><RaiseTicket/></MainLayout>,
   },
   {
     path:"/ticket/:id",

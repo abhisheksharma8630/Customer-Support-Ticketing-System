@@ -3,6 +3,7 @@ import {Ticket} from '../models/ticket.js';
 import {Agent} from '../models/user.js'
 import setPriority from '../utils/setPriority.js';
 
+
 export const createTicket = async (req,res)=>{
     try {
         const { title, description, category } = req.body;
@@ -33,6 +34,16 @@ export const createTicket = async (req,res)=>{
         res.status(500).json({ message: "An error occurred while creating the ticket" });
       }
 }
+
+export const createTicket2 = async (req,res)=>{
+  const{email,title,description,category} = req.body;
+  if (!email || !title || !description || !category) {
+    return res.status(400).json({ message: "Email, Title, description, and category are required" });
+  }
+}
+
+
+
 
 export const getTickets = async(req,res)=>{
     let tickets;
