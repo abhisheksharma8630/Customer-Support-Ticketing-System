@@ -104,6 +104,12 @@ export const getTicket = async (req,res)=>{
         const ticket = await Ticket.findById(id).populate({
             path: "customer",
             select: "-password"
+        }).populate({
+          path:"agent",
+          select:"-password -email -assignedTickets -isAvailable"
+        }).populate({
+          path:"history.updatedBy",
+          select:"-password -email -assignedTickets -isAvailable"
         })
         if (!ticket) {
           return res.status(404).json({ message: "Ticket not found" });

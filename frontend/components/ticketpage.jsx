@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './TicketDisplay.css';
 
 const TicketDisplay = ({ ticketId, userType }) => {
   const [ticket, setTicket] = useState(null);
@@ -11,9 +10,10 @@ const TicketDisplay = ({ ticketId, userType }) => {
   useEffect(() => {
     const fetchTicket = async () => {
       try {
-        const response = await axios.get(`/ticket/${ticketId}`);
-        setTicket(response.data.ticket);
-        setStatus(response.data.ticket.status);
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/ticket/${ticketId}`);
+        console.log(response)
+        setTicket(response.data);
+        setStatus(response.data.status);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching ticket:', error);
@@ -43,7 +43,7 @@ const TicketDisplay = ({ ticketId, userType }) => {
   return (
     <div className="ticket-container">
       <h2>Ticket Details</h2>
-      <p><strong>Subject:</strong> {ticket.subject}</p>
+      <p><strong>Subject:</strong> {ticket.title}</p>
       <p><strong>Description:</strong> {ticket.description}</p>
       <p><strong>Status:</strong> {ticket.status}</p>
       <p><strong>Assigned Agent:</strong> {ticket?.agent?.name || 'Unassigned'}</p>
@@ -61,7 +61,7 @@ const TicketDisplay = ({ ticketId, userType }) => {
       </div>
 
       {/* Agent controls */}
-      {userType === 'agent' && ticket.status !== 'closed' && (
+      {userType === 'agent' && ticket.status === 'closed' && (
         <div className="agent-controls">
           <h3>Update Ticket Status</h3>
           <label>Status:</label>

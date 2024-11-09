@@ -144,7 +144,7 @@ const TicketPage = ({ userRole }) => {
       </div> */}
 
       {/* History Section */}
-      {/* {userRole === 'admin' && ticket.history.length > 0 && (
+      {userRole === 'admin' && ticket.history.length > 0 && (
         <div className="history">
           <h2>Ticket History</h2>
           <ul>
@@ -158,7 +158,7 @@ const TicketPage = ({ userRole }) => {
             ))}
           </ul>
         </div>
-      )} */}
+      )}
     </div>
   );
 };
