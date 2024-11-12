@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 
 const ProtectedRoute = ({ children }) => {
-  const [isVerified, setIsVerified] = useState(null); // Initialize state for verification status
+  const [isVerified, setIsVerified] = useState(true); // Initialize state for verification status
   const accessToken = Cookies.get('accessToken'); // Get the access token from the cookie
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const ProtectedRoute = ({ children }) => {
       }
     };
 
-    verifyToken();
+    // verifyToken();
   }, [accessToken]);
 
   if (isVerified === null) {
