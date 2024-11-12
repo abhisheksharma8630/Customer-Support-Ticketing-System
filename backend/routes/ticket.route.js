@@ -8,6 +8,6 @@ router.route("/").post(authenticateToken,createTicket)
 router.route("/").get(authenticateToken,getTickets);
 router.route("/assignedTickets").post(assignedTickets)
 router.route("/:id").get(getTicket)
-router.route("/:id").put(addTicketHistory)
+router.route("/:id").patch(addTicketHistory)
 
 export default router;

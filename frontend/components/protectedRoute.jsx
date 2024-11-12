@@ -15,7 +15,7 @@ const ProtectedRoute = ({ children }) => {
       }
 
       try {
-        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/verifyToken`, {
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/verify-token`, {
           accessToken,
         });
         console.log(response)
@@ -26,6 +26,7 @@ const ProtectedRoute = ({ children }) => {
           setIsVerified(false);
         }
       } catch (error) {
+        console.log(error)
         setIsVerified(false);
       }
     };

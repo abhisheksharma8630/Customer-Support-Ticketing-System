@@ -71,6 +71,7 @@ export const login = async (req, res) => {
 
 export const verifyToken = async (req, res) => {
     const { accessToken } = req.body;
+    console.log(accessToken);
 
     if (!accessToken) {
         console.log("Access token missing");

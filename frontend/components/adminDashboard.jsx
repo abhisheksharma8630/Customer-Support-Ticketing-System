@@ -56,10 +56,13 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleChange = async (e,ticketId) =>{
-    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/assignAgent`,{agentId:e.target.value,ticketId:ticketId});
+  const handleChange = async (e, ticketId) => {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/user/assignAgent`,
+      { agentId: e.target.value, ticketId: ticketId }
+    );
     console.log(response);
-  }
+  };
 
   useEffect(() => {
     getAvailableAgent();
@@ -90,7 +93,9 @@ export default function AdminDashboard() {
         <tbody>
           {tickets.map((ticket, idx) => (
             <tr key={idx}>
-              <td>{truncateText(ticket.title, 25)}</td>
+              <a href={`/ticket/${ticket._id}`}>
+                <td>{truncateText(ticket.title, 25)}</td>
+              </a>
               <td>{truncateText(ticket.description, 30)}</td>
               <td>{ticket.customer.name}</td>
               <td>{ticket.customer.email}</td>
@@ -100,7 +105,11 @@ export default function AdminDashboard() {
               <td>{new Date(ticket.createdAt).toLocaleString()}</td>
               <td>{new Date(ticket.updatedAt).toLocaleString()}</td>
               <td>
-                <select name="agentSelect" id="agentSelect" onChange={(e)=>handleChange(e,ticket._id)}>
+                <select
+                  name="agentSelect"
+                  id="agentSelect"
+                  onChange={(e) => handleChange(e, ticket._id)}
+                >
                   <option value="">Select an agent</option>{" "}
                   {/* This will act as the placeholder */}
                   {availableAgents &&

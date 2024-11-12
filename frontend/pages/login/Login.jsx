@@ -23,6 +23,7 @@ const handleSubmit = async (e)=>{
       if(response.status === 200){
         alert('Login Successful')
         Cookies.set('accessToken',response.data.token);
+        Cookies.set('userId',response.data.user._id);
         navigate("/dashboard");
       }
     }catch(error){

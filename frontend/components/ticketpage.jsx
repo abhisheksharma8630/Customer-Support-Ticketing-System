@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie'
 
-const TicketDisplay = ({ ticketId, userType }) => {
+const TicketDisplay = ({ ticketId, userType="agent" }) => {
   const [ticket, setTicket] = useState(null);
   const [status, setStatus] = useState('');
   const [notes, setNotes] = useState('');
@@ -25,10 +26,15 @@ const TicketDisplay = ({ ticketId, userType }) => {
   }, [ticketId]);
 
   const handleStatusUpdate = async () => {
+    const userId = Cookies.get('userId');
+    if (!userId) {
+      console.error('User not authenticated');
+      return;
+    }
     try {
-      const response = await axios.put(`/ticket/${ticketId}`, {
+      const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/ticket/${ticketId}`, {
         status,
-        updatedBy: 'agentId', // Replace with actual agent ID in production
+        updatedBy: userId, // Replace with actual agent ID in production
         notes,
       });
       setTicket(response.data.ticket);
@@ -61,7 +67,7 @@ const TicketDisplay = ({ ticketId, userType }) => {
       </div>
 
       {/* Agent controls */}
-      {userType === 'agent' && ticket.status === 'closed' && (
+      {userType === 'agent' && ticket.status !== 'closed' && (
         <div className="agent-controls">
           <h3>Update Ticket Status</h3>
           <label>Status:</label>
