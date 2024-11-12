@@ -30,9 +30,9 @@ export default function Chat() {
     }
   }
   return (
-    <div className='container'>
+    <div className='raise-container'>
       <div className='ticket_raise_form'>
-        <form action="" onSubmit={handleSubmit}>
+        <form className='raise-form' action="" onSubmit={handleSubmit}>
           <h2><b>Raise your ticket here!</b></h2>
           <br />
           <label htmlFor="usrname">UserName : </label>
@@ -49,7 +49,7 @@ export default function Chat() {
           <br />
           <label htmlFor="description">Description : </label> 
           <br />
-          <textarea placeholder='Write your ticket here...' name="description" id="description" value={ticket.description} onChange={handleChange}></textarea>
+          <textarea placeholder='Write your ticket here...' name="description" id="raise-description" value={ticket.description} onChange={handleChange}></textarea>
           <br />
           <br />
           <label htmlFor="category">Category</label>
@@ -60,7 +60,7 @@ export default function Chat() {
             <option value="account">account</option>
             <option value="other">other</option>
           </select>
-          <button>Submit</button>
+          <button className='raise-button'>Submit</button>
         </form>
       </div>
     </div>
