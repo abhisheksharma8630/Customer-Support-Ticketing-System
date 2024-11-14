@@ -1,24 +1,43 @@
 import mongoose from 'mongoose';
 import {Ticket} from '../models/ticket.js';
-import {Agent} from '../models/user.js'
+import {Agent, Customer, User} from '../models/user.js'
 import setPriority from '../utils/setPriority.js';
+import { generateRandomPassword } from '../utils/helper.js';
+import sendMail from '../utils/sendEmail.js';
 
 
 export const createTicket = async (req,res)=>{
     try {
-        const { title, description, category } = req.body;
-    
-        // Validate required fields
-        if (!title || !description || !category) {
+        const {email, title, description, category } = req.body;
+        if (!email|| !title || !description || !category) {
           return res.status(400).json({ message: "Title, description, and category are required" });
         }
+
+        const user = await User.findOne({email});
+        
+        if (!user) {
+          return res.status(404).json({ message: "User not found. Please verify your email before creating a ticket." });
+        }
+        await User.findOneAndDelete({_id:user._id});
+    
+        let customer = await Customer.findOne({ _id: user._id });
+
+        if (!customer) {
+            // If user is not a customer, create a customer profile for them
+            let password = generateRandomPassword();
+            await sendMail(email, 'Email and password for the website from Ticketease', `Your Email: ${email} and Password: ${password}`);
+            console.log("email sent successfully");
+            customer = new Customer({_id:user._id,email:user.email,name:user.name,password})
+        }
+
+        // Validate required fields
     
         // Create a new ticket instance
         const ticket = new Ticket({
-          title,
-          description,
-          category,
-          customer: req.user.user, // Assuming req.user.user contains customer ID
+            title,
+            description,
+            category,
+            customer: user._id // Associate the ticket with the customer's ID
         });
     
         // Set ticket priority based on description
@@ -26,6 +45,8 @@ export const createTicket = async (req,res)=>{
     
         // Save the ticket to the database
         await ticket.save();
+        customer.tickets.push(ticket._id);
+        await customer.save();
     
         console.log("New ticket created:", ticket);
         res.status(201).json({ message: "Ticket created successfully", ticket });
@@ -34,16 +55,6 @@ export const createTicket = async (req,res)=>{
         res.status(500).json({ message: "An error occurred while creating the ticket" });
       }
 }
-
-export const createTicket2 = async (req,res)=>{
-  const{email,title,description,category} = req.body;
-  if (!email || !title || !description || !category) {
-    return res.status(400).json({ message: "Email, Title, description, and category are required" });
-  }
-}
-
-
-
 
 export const getTickets = async(req,res)=>{
     let tickets;
