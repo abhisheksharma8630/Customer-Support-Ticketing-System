@@ -50,7 +50,7 @@ const handleSubmit = async (e)=>{
         </div>
         <div className="login_right">
            
-            <form id="login-form" className="form " onSubmit={handleSubmit}>
+            <form id="login-form" className="signupLoginform" onSubmit={handleSubmit}>
                 <h2>Login</h2>
                 <label htmlFor="email">Email</label> <br />
               <input type="text" id='email' name='email' value={login.email} placeholder="Email" onChange={handleChange} className="login-email"/> <br />

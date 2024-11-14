@@ -42,7 +42,7 @@ export default function signup() {
           action=""
           onSubmit={handleSubmit}
           id="signup-form"
-          className="form"
+          className="signupLoginform"
         >
           <h2>Sign Up</h2>
           <label htmlFor="name">Name:</label>
@@ -83,6 +83,7 @@ export default function signup() {
           <br />
 
           <label htmlFor="role">Role:</label>
+          <br />
           <select
             name="role"
             id="role"

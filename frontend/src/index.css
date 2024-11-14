@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 .login_container{
-    height: 85vh;
+    height: 85.5vh;
     display: flex;
 }
 
@@ -13,7 +13,7 @@
     height: 100%;
 }
 
-img{
+.login_left img{
     height: 100%;
     width: 100%;
 }
@@ -24,37 +24,16 @@ img{
     overflow-y: scroll;
 }
 
-
-
-.toggle-btn{
-    background: none;
-    color: #4a90e2;
-    border: none;
-    cursor: pointer;
-    
-}
-
 #login-btn{
     color: #f06;
 }
 
 
-.active-btn{
-    background-color: #4a90e2;
-    border:1px solid skyblue;
-    border-radius: 1rem;
-    height: 50px;
-    width: 250px;
-    color: white;
-    font-size: 140%;
-    cursor: pointer;
-}
-
-.form h2{
+.signupLoginform h2{
     padding: 4% 0 4% 4% ;
     font-size: 250%;
 }
-.form input{
+.signupLoginform input,select{
     height: 50px;
     width: 85%;
     margin-left: 4%;
@@ -66,6 +45,9 @@ img{
 #signup-from input{
     margin-bottom: 2%;
 }
+
+
+
 .btn-login{
     height: 50px;
     width: 85%;
@@ -80,9 +62,7 @@ img{
 .btn-login:hover{
     background-color: #f06;
 }
-.hidden{
-    display: none;
-}
+
 
 .login_left{
     position: relative;
@@ -99,6 +79,7 @@ img{
 .login_last{
     padding-top: 4%;
     text-align: center;
+    padding-bottom: 2%;
 }
 
 .login_container input{
@@ -109,8 +90,8 @@ img{
     padding-left: 4%;
     font-size: 120%;
 }
-#role{
-    margin: 1% 0 4% 2%;
+.signup-role{
+    padding-left: 2%;
 }
 
 
@@ -119,17 +100,19 @@ img{
 .navbar_create{
     height: 80px;
     display: flex;
-    background-color: rgb(158, 155, 155);
+    background-color: #4a90e2;
+    
 }
 .navbar_create a{
     cursor: pointer;
     text-decoration: none;
     font-size: 120%;
+    font-weight: 700;
     color: black;
 }
 
 .navbar_create a:hover{
-    color: #f06;
+    color: white;
 }
 
 .navbar_create button{
@@ -154,6 +137,12 @@ img{
     display: flex;
     align-items: center;
 }
+
+.navbar_left h1{
+    color: white;
+    font-size: 250%;
+}
+
 .navbar_right{
     width: 50%;
     display: flex;
@@ -161,12 +150,6 @@ img{
     justify-content: flex-end;
 }
 
-#show_pass{
-    height: 30px;
-    width: 30px;
-    cursor: pointer;
-    padding-top: 2%;
-}
 
 @media (max-width: 600px) {
     .login_left{
@@ -175,10 +158,22 @@ img{
     .login_right{
         width: 100%;
     }
+    #nav_login{
+        display: none;
+    }
+    #nav_signup{
+        display: none;
+    }
+    .navbar_left h1{
+        font-size: 120%;
+        font-weight: 700;
+    }
+    .navbar_create a{
+        font-weight: 550;
+    }
+  
 
- 
 }
-
 /* Ticket Page css testing */
 
 /* TicketDisplay.css */

@@ -14,10 +14,10 @@ export default function Navbar() {
           <h1>Ticket Ease</h1>
       </div>
         <div className='navbar_right'>
-          <ul style={{display:"flex",gap:"2rem",alignItems:"center"}}>
+          <ul style={{display:"flex",gap:"1.2rem",alignItems:"center"}}>
             <a href='/dashboard'>Dashboard</a>
-            <a href='/login'>Login</a>
-            <a href='/signup'>Signup</a>
+            <a href='/login' id='nav_login'>Login</a>
+            <a href='/signup' id='nav_signup'>Signup</a>
             <a href='/ticket'>Raise Ticket</a>
             <button onClick={logout}>Logout</button >
           </ul>
