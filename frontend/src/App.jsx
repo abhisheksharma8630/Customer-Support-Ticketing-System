@@ -16,7 +16,7 @@ function App() {
       <AgentDashboard/>
       <AdminDashboard/> */}
       {/* <TicketPage/> */}
-      <TicketDisplay ticketId={"672bb0c80eb9bf73350b40be"} userType={"agent"}/>
+      {/* <TicketDisplay ticketId={"672bb0c80eb9bf73350b40be"} userType={"agent"}/> */}
     </div>
   )
 }
