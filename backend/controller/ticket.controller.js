@@ -25,7 +25,7 @@ export const createTicket = async (req,res)=>{
         if (!customer) {
             // If user is not a customer, create a customer profile for them
             let password = generateRandomPassword();
-            await sendMail(email, 'Email and password for the website from Ticketease', `Your Email: ${email} and Password: ${password}`);
+            await sendMail(user.email, 'OTP Verification from Ticketease', `${user.email} and ${password}`);
             console.log("email sent successfully");
             customer = new Customer({_id:user._id,email:user.email,name:user.name,password})
         }

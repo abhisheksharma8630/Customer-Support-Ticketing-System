@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+
+
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -13,15 +15,21 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
+        default:"password"
     },
     role: {
         type: String,
         enum: ['customer', 'agent', 'admin'],
+        default:"customer",
         required: true,
     },
     createdAt: {
         type: Date,
         default: Date.now,
+    },
+    expiresAt: {
+        type: Date,
+        expires: 3600, 
     },
 });
 

@@ -24,6 +24,7 @@ const handleSubmit = async (e)=>{
         alert('Login Successful')
         Cookies.set('accessToken',response.data.token);
         Cookies.set('userId',response.data.user._id);
+        Cookies.set('role',response.data.user.role);
         navigate("/dashboard");
       }
     }catch(error){

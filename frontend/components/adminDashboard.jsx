@@ -111,7 +111,6 @@ export default function AdminDashboard() {
                   onChange={(e) => handleChange(e, ticket._id)}
                 >
                   <option value="">Select an agent</option>{" "}
-                  {/* This will act as the placeholder */}
                   {availableAgents &&
                     availableAgents.map((agent, idx) => (
                       <option key={agent._id} value={agent._id}>

@@ -6,7 +6,7 @@ import CustomerDashboard from '../../components/customerDashboard';
 import AdminDashboard from '../../components/adminDashboard';
 
 export default function Dashboard() {
-  const role = Cookies.get("role");
+  const role = "admin" || Cookies.get("role");
   const [tickets,setTickets] = useState([
     {
       title: 'learning German While you Sleep or Rest',        
@@ -40,6 +40,7 @@ export default function Dashboard() {
   },[])
   return (
     <div>
+      
       {role === 'agent' && <AgentDashboard/>}
       {role === 'admin' && <AdminDashboard tickets={tickets} />}
       {role === 'customer' && <CustomerDashboard tickets={tickets} />}

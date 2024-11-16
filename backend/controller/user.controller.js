@@ -235,6 +235,19 @@ export const verifyOtp = async (req,res)=>{
   
     // OTP is verified, clear the OTP data
     delete OTP_STORE[email];
-  
+
+    const user = await User.findOne({email});
+    if(!user){
+        const name = email.split('@')[0]; // Take part before '@' as name
+        const expiresAt_User = new Date(Date.now() + 600 * 1000); 
+        
+        const partialUser = new User({
+            name,
+            email,
+            expiresAt:expiresAt_User,
+        });
+        await partialUser.save();
+    } 
+
     return res.status(200).json({ message: 'Email verified successfully.' });
   };
