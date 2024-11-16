@@ -2,7 +2,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
 }
+body {
+    font-family: 'Mona Sans', sans-serif;
+}
+  
 .login_container{
     height: 85vh;
     display: flex;
@@ -319,52 +324,115 @@ img{
     align-items: center;
 }
 .ticket-raise-form{
-    width: 30rem;
+    width: 60rem;
+    height: 100%;
+    margin-top: 3rem;
+    background-color: white;
+    border-radius: 0.7rem;
     display: flex;
-    justify-content: center;
-    padding-top: 1rem;
-    padding-bottom: 2rem;
-    border: 2px solid #4a90e2;;
+    padding: 1rem;
+    border: 1px solid #e3dfdf;
+    background-color: #e3dfdf;
+}
+.ticket-raise-left{
+    height: 100%;
+    width: 50%;
+    background-color: rgb(239, 238, 238);
+    border-radius: 0.7rem;
+    padding: 1rem;
+}
+.ticket-raise-left h2{
+    margin-top: 6rem;
+    font-size: 1.8rem;
+    font-weight: 550;
+    color: #0d0c22;
+}
+.ticket-raise-left p{
+    padding: 1rem;
+    color: #0d0c22;
+    opacity: 0.6;
+}
+.ticke-raise-left-card{
+    height: 12rem;
+    width: 23rem;
+    background-color: #0d0c22;
+    margin-left: 1.9rem;
+    margin-top: 3rem;
+    border: 1px solid #0d0c22;
     border-radius: 1rem;
 }
-.raise-container h2{
-    font-size: 2.5rem;
-    color: #4a90e2;
-}
-.raise-form{
-    font-size: 1.4rem;
-}
-.raise-form label{
+.ticke-raise-left-card p{
+    color: white;
+    opacity: 1;
+    font-size: 0.9rem;
+    font-weight: 100;
+    margin-top: 2rem;
     margin-left: 1rem;
-    color: #4a90e2;
-    font-weight: 700;
+    margin-right: 1rem;
 }
-.raise-container input{
-    height: 1.7rem;
-    width: 21rem;
+.ticket-raise-left-image{
+    height: 3.5rem;
+    width: 3.5rem;
+    border-radius: 50%;
+    margin-left: 1.5rem;
+    display: inline-block;
+    background-image: url('https://media.istockphoto.com/id/1364917563/photo/businessman-smiling-with-arms-crossed-on-white-background.jpg?s=612x612&w=0&k=20&c=NtM9Wbs1DBiGaiowsxJY6wNCnLf0POa65rYEwnZymrM=');
+    background-size: cover; 
+    background-position: center; 
+}.ticke-raise-left-card h4{
+    display: inline-block;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 350;
+    margin-left: 1rem;
+}
+.ticket-raise-right{
+    height: 100%;
+    width: 50%;
+    padding-top: 2rem;
+    padding-left: 3rem;
+}
+.raise-form h2{
+    color: #0d0c22;
+    font-size: 2rem;
+    font-weight: 560;
+}
+.raise-form h4{
+    font-weight: 400;
+    opacity: 0.7;
+    margin-left: 1rem;
+    margin-bottom: 3rem;
+}
+label{
+    margin-left: 1rem;
+    opacity: 0.7;
+    font-size: 0.9rem;
+}
+.raise-form input{
+    margin-left: 1rem;
+    margin-top: 0.3rem;
+    height: 2.7rem;
+    width: 24rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgb(151, 149, 149);
     font-size: 1rem;
-    margin-left: 1rem;
-    border-radius: 0.4rem;
-    border: 1.5px solid black;
-    padding: 0.6rem;
 }
 #raise-description{
-    height: 8rem;
-    width: 27rem;
-    font-size: 1rem;
     margin-left: 1rem;
-    margin-top: 0.5rem;
-    border: 1.5px solid black;
-    border-radius: 0.4rem;
-    padding: 0.5rem;
+    margin-top: 0.4rem;
+    padding: 0.3rem;
+    height: 4.7rem;
+    width: 24rem;
+    /* font-size: 1rem; */
+    border-radius: 0.3rem;
 }
-.raise-button{
-    height: 2.5rem;
-    width: 7rem;
-    font-size: 1.3rem;
-    border: 1px solid green;
-    background-color: green;
-    color: aliceblue;
-    border-radius: 0.7rem;
-    margin-left: 4rem;
+.raise-form button{
+    margin-left: 1rem;
+    text-align: center;
+    height: 2.7rem;
+    width: 24rem;
+    border-radius: 0.5rem;
+    background-color: #0077ff;
+    border: 1px solid #0077ff;
 }

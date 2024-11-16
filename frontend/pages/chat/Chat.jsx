@@ -102,13 +102,26 @@ const RaiseTicket = () => {
       )}
 
       {/* raise ticket form html */}
-      {otpVerified && (
-        <div className="raise-container">
-          <div className="ticket-raise-form">
+      <div className="raise-container">
+        <div className='ticket-raise-form'>
+          <div className='ticket-raise-left'>
+            <h2>Let us help you to know us you queries.</h2>
+            <p>Our Ticket solving process is quick and easy, taking no more time to solve.</p>
+            <div className='ticke-raise-left-card'>
+              <p>I'm impressed with the result I've seen since starting to use this product, I was really simple and helpfull.</p>
+              <div className='ticket-raise-left-image'></div>
+              <h4>Jonas kim</h4>
+            </div>
+          </div>
+
+          <div className="ticket-raise-right">
+          {otpVerified && (
             <form onSubmit={handleSubmit} className="raise-form">
-              <h2>Raise your ticket here!</h2>
+              <h2>Get started</h2>
+              <h4>Raise your ticket here</h4>
               <div className="input-group">
                 <label>Title:</label>
+                <br />
                 <input
                   type="text"
                   value={title}
@@ -120,6 +133,7 @@ const RaiseTicket = () => {
               <br />
               <div className="input-group">
                 <label>Category:</label>
+                <br />
                 <input
                   type="text"
                   value={category}
@@ -134,20 +148,19 @@ const RaiseTicket = () => {
                 <br />
                 <textarea
                   value={description}
-                  id="raise-description"
+                  id='raise-description'
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Enter description"
                   required
                 ></textarea>
               </div>
-
-              <button className="raise-button" type="submit">
-                Submit
-              </button>
+              <br />
+              <button className='raise-button' type="submit">Submit</button>
             </form>
-          </div>
+          )}
         </div>
-      )}
+        </div>
+        </div>
     </div>
   );
 };
