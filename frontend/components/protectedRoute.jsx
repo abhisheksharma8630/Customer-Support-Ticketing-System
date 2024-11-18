@@ -22,7 +22,8 @@ const ProtectedRoute = ({ children }) => {
         if (response.status === 200) {
           Cookies.set("role",response.data.role);
           setIsVerified(true);
-        } else {
+        } else if(response.status === 500) {
+          alert("Server Error Try after some time");
           setIsVerified(false);
         }
       } catch (error) {
@@ -31,7 +32,7 @@ const ProtectedRoute = ({ children }) => {
       }
     };
 
-    // verifyToken();
+    verifyToken();
   }, [accessToken]);
 
   if (isVerified === null) {

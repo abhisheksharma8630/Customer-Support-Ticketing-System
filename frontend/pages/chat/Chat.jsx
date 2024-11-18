@@ -3,7 +3,7 @@ import axios from "axios";
 const RaiseTicket = () => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
   const [title, setTitle] = useState("");
@@ -22,7 +22,7 @@ const RaiseTicket = () => {
         `${import.meta.env.VITE_BACKEND_URL}/user/send-otp`,
         { email }
       );
-      setLoading(false)
+      setLoading(false);
       console.log(response);
       setOtpSent(true);
       setSuccess(response.data.message);
@@ -65,102 +65,111 @@ const RaiseTicket = () => {
 
   return (
     <div className="verification-container">
-      {!otpVerified && (
-        <form className="verification-form">
-          <h2>Verify your Email here</h2>
-          {error && <p className="error">{error}</p>}
-          {success && <p className="error">{success}</p>}
-
-          {!otpSent && (
-            <div className="input-group">
-              <label>Email:</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                required
-              />
-              <button onClick={handleSendOtp} disabled={loading}>Send OTP</button>
-            </div>
-          )}
-
-          {otpSent && !otpVerified && (
-            <div className="input-group">
-              <label>OTP:</label>
-              <input
-                type="text"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                placeholder="Enter the OTP"
-                required
-              />
-              <button onClick={handleVerifyOtp}>Verify OTP</button>
-            </div>
-          )}
-        </form>
-      )}
-
       {/* raise ticket form html */}
       <div className="raise-container">
-        <div className='ticket-raise-form'>
-          <div className='ticket-raise-left'>
+        <div className="ticket-raise-form">
+          <div className="ticket-raise-left">
             <h2>Let us help you to know us you queries.</h2>
-            <p>Our Ticket solving process is quick and easy, taking no more time to solve.</p>
-            <div className='ticke-raise-left-card'>
-              <p>I'm impressed with the result I've seen since starting to use this product, I was really simple and helpfull.</p>
-              <div className='ticket-raise-left-image'></div>
+            <p>
+              Our Ticket solving process is quick and easy, taking no more time
+              to solve.
+            </p>
+            <div className="ticke-raise-left-card">
+              <p>
+                I'm impressed with the result I've seen since starting to use
+                this product, I was really simple and helpfull.
+              </p>
+              <div className="ticket-raise-left-image"></div>
               <h4>Jonas kim</h4>
             </div>
           </div>
 
           <div className="ticket-raise-right">
-          {otpVerified && (
-            <form onSubmit={handleSubmit} className="raise-form">
-              <h2>Get started</h2>
-              <h4>Raise your ticket here</h4>
-              <div className="input-group">
-                <label>Title:</label>
+            {!otpVerified && (
+              <form className="verification-form">
+                <h2>Verify your Email here</h2>
+                {error && <p className="error">{error}</p>}
+                {success && <p className="error">{success}</p>}
+
+                {!otpSent && (
+                  <div className="input-group">
+                    <label>Email:</label>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Enter your email"
+                      required
+                    />
+                    <button onClick={handleSendOtp} disabled={loading}>
+                      Send OTP
+                    </button>
+                  </div>
+                )}
+
+                {otpSent && !otpVerified && (
+                  <div className="input-group">
+                    <label>OTP:</label>
+                    <input
+                      type="text"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value)}
+                      placeholder="Enter the OTP"
+                      required
+                    />
+                    <button onClick={handleVerifyOtp}>Verify OTP</button>
+                  </div>
+                )}
+              </form>
+            )}
+            {otpVerified && (
+              <form onSubmit={handleSubmit} className="raise-form">
+                <h2>Get started</h2>
+                <h4>Raise your ticket here</h4>
+                <div className="input-group">
+                  <label>Title:</label>
+                  <br />
+                  <input
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="Enter title"
+                    required
+                  />
+                </div>
                 <br />
-                <input
-                  type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Enter title"
-                  required
-                />
-              </div>
-              <br />
-              <div className="input-group">
-                <label>Category:</label>
+                <div className="input-group">
+                  <label>Category:</label>
+                  <br />
+                  <input
+                    type="text"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    placeholder="Enter category"
+                    required
+                  />
+                </div>
                 <br />
-                <input
-                  type="text"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  placeholder="Enter category"
-                  required
-                />
-              </div>
-              <br />
-              <div className="input-group">
-                <label>Description:</label>
+                <div className="input-group">
+                  <label>Description:</label>
+                  <br />
+                  <textarea
+                    value={description}
+                    id="raise-description"
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Enter description"
+                    required
+                  ></textarea>
+                </div>
                 <br />
-                <textarea
-                  value={description}
-                  id='raise-description'
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Enter description"
-                  required
-                ></textarea>
-              </div>
-              <br />
-              <button className='raise-button' type="submit">Submit</button>
-            </form>
-          )}
+                <button className="raise-button" type="submit">
+                  Submit
+                </button>
+              </form>
+            )}
+          </div>
         </div>
-        </div>
-        </div>
+      </div>
     </div>
   );
 };

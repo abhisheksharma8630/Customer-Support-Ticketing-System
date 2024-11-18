@@ -3,13 +3,13 @@ import { useState } from "react";
 import {useNavigate} from 'react-router-dom'
 import axios from "axios";
 
-export default function signup() {
+export default function signup({role = "customer"}) {
   const navigate = useNavigate(); // Import the useNavigate hook from react-router-dom
   const [user, setUser] = useState({
     name: "",
     email: "",
     password: "",
-    role: "customer",
+    role: role,
   });
 
   const handleChange = (e) => {
@@ -80,18 +80,6 @@ export default function signup() {
             placeholder="Password"
             required
           />
-          <br />
-
-          <label htmlFor="role">Role:</label>
-          <select
-            name="role"
-            id="role"
-            value={user.role}
-            onChange={handleChange}
-          >
-            <option value="customer">Customer</option>
-            <option value="agent">Agent</option>
-          </select>
           <br />
           <button type="submit" id="signup-btn" className="btn-login">
             Submit

@@ -2,49 +2,38 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
-export default function AdminDashboard() {
-  const [tickets, setTickets] = useState([
-    {
-      title: "learning German While you Sleep or Rest",
-      description: "gello asdfa",
-      customer: {
-        name: "abhishek",
-        email: "abhishek@gmail.com",
-        role: "customer",
-        createdAt: "2024-10-29T19:25:51.162Z",
-        __v: 0,
-      },
-      status: "open",
-      priority: "medium",
-      category: "general",
-      createdAt: "2024-10-30T17:14:01.685Z",
-      updatedAt: "2024-10-30T17:14:01.686Z",
-      attachments: [],
-      comments: [],
-      history: [],
-      __v: 0,
-    },
-  ]);
+export default function AdminDashboard({tickets}) {
+  // const [tickets, setTickets] = useState([
+  //   {
+  //     title: "learning German While you Sleep or Rest",
+  //     description: "gello asdfa",
+  //     customer: {
+  //       name: "abhishek",
+  //       email: "abhishek@gmail.com",
+  //       role: "customer",
+  //       createdAt: "2024-10-29T19:25:51.162Z",
+  //       __v: 0,
+  //     },
+  //     status: "open",
+  //     priority: "medium",
+  //     category: "general",
+  //     createdAt: "2024-10-30T17:14:01.685Z",
+  //     updatedAt: "2024-10-30T17:14:01.686Z",
+  //     attachments: [],
+  //     comments: [],
+  //     history: [],
+  //     __v: 0,
+  //   },
+  // ]);
   const [availableAgents, setAvailableAgents] = useState(null);
 
-  const fetchTickets = async () => {
-    const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/ticket`,
-      {
-        headers: {
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
-        },
-      }
-    );
-    setTickets(response.data);
-  };
   const truncateText = (text, length) => {
     return text.length > length ? text.substring(0, length) + "..." : text;
   };
 
   const getAvailableAgent = async () => {
     const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/user/getAgents`,
+      `${import.meta.env.VITE_BACKEND_URL}/user/get-agents`,
       {
         headers: {
           Authorization: `Bearer ${Cookies.get("accessToken")}`,
@@ -58,7 +47,7 @@ export default function AdminDashboard() {
 
   const handleChange = async (e, ticketId) => {
     const response = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/user/assignAgent`,
+      `${import.meta.env.VITE_BACKEND_URL}/user/assign-agents`,
       { agentId: e.target.value, ticketId: ticketId }
     );
     console.log(response);
@@ -66,7 +55,7 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     getAvailableAgent();
-    fetchTickets();
+    // fetchTickets();
   }, []);
   return (
     <div>

@@ -13,31 +13,24 @@ export const createTicket = async (req,res)=>{
           return res.status(400).json({ message: "Title, description, and category are required" });
         }
 
-        const user = await User.findOne({email});
-        
-        if (!user) {
-          return res.status(404).json({ message: "User not found. Please verify your email before creating a ticket." });
-        }
-        await User.findOneAndDelete({_id:user._id});
-    
-        let customer = await Customer.findOne({ _id: user._id });
-
+        let customer = await Customer.findOne({email});
+      
         if (!customer) {
-            // If user is not a customer, create a customer profile for them
-            let password = generateRandomPassword();
-            await sendMail(user.email, 'OTP Verification from Ticketease', `${user.email} and ${password}`);
-            console.log("email sent successfully");
-            customer = new Customer({_id:user._id,email:user.email,name:user.name,password})
+          const user = await User.findOne({email});
+          return res.status(404).json({ message: "User not found. Please verify your email before creating a ticket." });
+          await User.findOneAndDelete({_id:user._id});
+          let password = generateRandomPassword();
+          customer = new Customer({_id:user._id,email:user.email,name:user.name,password})
+          console.log("customer created");
+          await sendMail(user.email, 'Email and Password for Login on ticketease ', `Email : ${user.email} and Password ${password}`);
+          console.log("email sent successfully");
         }
 
-        // Validate required fields
-    
-        // Create a new ticket instance
         const ticket = new Ticket({
             title,
             description,
             category,
-            customer: user._id // Associate the ticket with the customer's ID
+            customer: customer._id // Associate the ticket with the customer's ID
         });
     
         // Set ticket priority based on description
@@ -56,32 +49,49 @@ export const createTicket = async (req,res)=>{
       }
 }
 
-export const getTickets = async(req,res)=>{
-    let tickets;
-    if(req.user.user.role === "agent"){
-        tickets = await Ticket.find({agent:req.user.user._id}).populate({
-            path:"customer",
-            select:"-password"
-        })
-    }else if(req.user.user.role === "admin"){
-        tickets = await Ticket.find().populate({
-            path:"customer",
-            select:"-password"
-        })
-        tickets = tickets.sort((a,b)=>{
-            const priorityOrder = {'high':1,'medium':2,'low':3}
-            return priorityOrder[a.priority] - priorityOrder[b.priority]
-        })
-    }else{
-        tickets = await Ticket.find({ customer: req.user.user._id }).populate({
-            path: "customer",
-            select: "-password"
-        });
+export const getTickets = async (req, res) => {
+  try {
+    // Initialize the filter object
+    const filter = {};
+    if (req.query.status) {
+      filter.status = req.query.status; // Add 'status' to filter only if provided
     }
 
-    console.log(tickets)
-    res.send(tickets);
-}
+    let tickets;
+
+    if (req.user.user.role === "agent") {
+      // Agent can view tickets assigned to them
+      tickets = await Ticket.find({ agent: req.user.user._id, ...filter }).populate({
+        path: "customer",
+        select: "-password",
+      });
+    } else if (req.user.user.role === "admin") {
+      // Admin can view all tickets with the filter
+      tickets = await Ticket.find({ ...filter }).populate({
+        path: "customer",
+        select: "-password",
+      });
+
+      // Sort tickets by priority
+      tickets = tickets.sort((a, b) => {
+        const priorityOrder = { high: 1, medium: 2, low: 3 };
+        return priorityOrder[a.priority] - priorityOrder[b.priority];
+      });
+    } else {
+      // Customers can only view their tickets
+      tickets = await Ticket.find({ customer: req.user.user._id, ...filter }).populate({
+        path: "customer",
+        select: "-password",
+      });
+    }
+
+    res.status(200).json(tickets);
+  } catch (error) {
+    console.error("Error fetching tickets:", error);
+    res.status(500).json({ message: "An error occurred while fetching tickets." });
+  }
+};
+
 
 export const assignedTickets = async (req,res)=>{
     const { agentId } = req.body;

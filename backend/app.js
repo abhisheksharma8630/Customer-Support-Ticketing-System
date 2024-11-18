@@ -23,7 +23,7 @@ app.listen(process.env.PORT,()=>{
 app.use("/user",userRouter);
 app.use("/ticket",ticketRouter);
 
-app.post("/hello",(req,res)=>{
-    console.log(req.body);
+app.get("/hello",(req,res)=>{
+    console.log(req.query);
     res.send("hello");
 })

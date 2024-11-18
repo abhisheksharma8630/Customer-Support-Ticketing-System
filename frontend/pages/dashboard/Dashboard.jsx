@@ -6,7 +6,7 @@ import CustomerDashboard from '../../components/customerDashboard';
 import AdminDashboard from '../../components/adminDashboard';
 
 export default function Dashboard() {
-  const role = "admin" || Cookies.get("role");
+  const role = Cookies.get("role");
   const [tickets,setTickets] = useState([
     {
       title: 'learning German While you Sleep or Rest',        
@@ -29,19 +29,24 @@ export default function Dashboard() {
       __v: 0
     }
   ]);
-  const fetchTickets = async()=>{
-    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/ticket`,{headers:{
+  const fetchTickets = async(status)=>{
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/ticket/${status}`,{headers:{
       Authorization:`Bearer ${Cookies.get('accessToken')}`
     }});
     setTickets(response.data);
   }
+
   useEffect(()=>{
-    fetchTickets();
+    fetchTickets("");
   },[])
   return (
     <div>
-      
-      {role === 'agent' && <AgentDashboard/>}
+      <div>
+        <button onClick={()=>fetchTickets("")}>All</button>
+        <button onClick={()=>fetchTickets("?status=open")}>Open</button>
+        <button onClick={()=>fetchTickets("?status=resolved")}>Resolved</button>        
+      </div>
+      {role === 'agent' && <AgentDashboard tickets={tickets}/>}
       {role === 'admin' && <AdminDashboard tickets={tickets} />}
       {role === 'customer' && <CustomerDashboard tickets={tickets} />}
       {/* Add your other dashboard components here */}
