@@ -3,6 +3,7 @@ import AdminDashboard from '../components/adminDashboard'
 import AgentDashboard from '../components/agentDashboard'
 import TicketDisplay from '../components/ticketpage'
 import TicketPage from '../pages/Ticket/ticket'
+import Landing from '../pages/landing/landing'
 import './App.css'
 
 
@@ -11,7 +12,7 @@ function App() {
 
   return (
     <div>
-      <h1>Welcome to TicketEase</h1>
+      <Landing/>
       {/* <ClientDashboard/>
       <AgentDashboard/>
       <AdminDashboard/> */}
