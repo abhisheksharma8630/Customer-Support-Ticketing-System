@@ -6,7 +6,7 @@ import axios from 'axios';
 
 
 export default function Navbar() {
-  const [loggedInStatus,setLoggedInStatus] = useState('false');
+  const [loggedInStatus,setLoggedInStatus] = useState(false);
   const role = Cookies.get('role');
   const navigate = useNavigate();
   const accessToken = Cookies.get('accessToken'); // Get the access token from the cookie
@@ -76,23 +76,23 @@ export default function Navbar() {
                 Home
               </a>
             </li>
-            {isLoggedIn && (
+            {loggedInStatus && (
               <>
                 <li className="nav-item mx-2">
                   <a href="/dashboard" className="navbar-brand text-light">
                     Dashboard
                   </a>
                 </li>
+              </>
+            )}
                 <li className="nav-item mx-2">
                   <a href="/ticket" className="navbar-brand text-light">
                     Raise Ticket
                   </a>
                 </li>
-              </>
-            )}
           </ul>
           <div className="d-flex ms-3">
-            {isLoggedIn ? (
+            {loggedInStatus ? (
               <button onClick={logout} className="btn btn-outline-danger me-4">
                 Logout
               </button>
@@ -127,4 +127,4 @@ export default function Navbar() {
 //             {role === "admin" && <a href='/add-agent'>Add Agent</a>}
 //             {!loggedInStatus && <a href='/login'>Login</a>}
 //             <a href='/ticket'>Raise Ticket</a>
-//             {loggedInStatus && <button onClick={logout}>Logout</button >}
+//             { && <button onClick={logout}>Logout</button >}
