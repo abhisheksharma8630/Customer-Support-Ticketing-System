@@ -71,35 +71,44 @@ export const login = async (req, res) => {
 
 export const verifyToken = async (req, res) => {
     const { accessToken } = req.body;
-    console.log(accessToken);
-
+    
+    // Check if the access token is provided
     if (!accessToken) {
-        console.log("Access token missing");
-        return;
+      console.log("Access token missing");
+      return res.status(400).send({ message: "Access token is required" });
     }
-
+  
     try {
-        // Verify the access token
-        const decodedAccessToken = jwt.verify(accessToken, process.env.SECRET_KEY);
-        const user = await User.findById(decodedAccessToken.user._id);
-
-        if (!user) {
-            console.log("User doesn't exist for the provided token");
-            return;
-        }
-
-        console.log("User verified successfully");
-        return res.status(200).send({ message: "User verified successfully", role: user.role });
+      // Verify the access token
+      const decodedAccessToken = jwt.verify(accessToken, process.env.SECRET_KEY);
+  
+      // Find the user by ID
+      const user = await User.findById(decodedAccessToken.user._id);
+  
+      if (!user) {
+        console.log("User doesn't exist for the provided token");
+        return res.status(404).send({ message: "User not found" });
+      }
+  
+      console.log("User verified successfully");
+      return res.status(200).send({
+        message: "User verified successfully",
+        role: user.role,
+      });
     } catch (error) {
-        if (error.name === 'TokenExpiredError') {
-            console.log("Token has expired");
-        } else if (error.name === 'JsonWebTokenError') {
-            console.log("Invalid token");
-        } else {
-            console.log('An unexpected error occurred:', error);
-        }
+      if (error.name === "TokenExpiredError") {
+        console.log("Token has expired");
+        return res.status(401).send({ message: "Token has expired" });
+      } else if (error.name === "JsonWebTokenError") {
+        console.log("Invalid token");
+        return res.status(401).send({ message: "Invalid token" });
+      } else {
+        console.error("An unexpected error occurred:", error);
+        return res.status(500).send({ message: "An unexpected error occurred" });
+      }
     }
-}
+  };
+  
 
 export const logout = (req, res) => {
     const options = {
@@ -235,6 +244,19 @@ export const verifyOtp = async (req,res)=>{
   
     // OTP is verified, clear the OTP data
     delete OTP_STORE[email];
-  
+
+    const user = await User.findOne({email});
+    if(!user){
+        const name = email.split('@')[0]; // Take part before '@' as name
+        const expiresAt_User = new Date(Date.now() + 600 * 1000); 
+        
+        const partialUser = new User({
+            name,
+            email,
+            expiresAt:expiresAt_User,
+        });
+        await partialUser.save();
+    } 
+
     return res.status(200).json({ message: 'Email verified successfully.' });
   };

@@ -44,6 +44,10 @@ const router = createBrowserRouter([
     element:<ProtectedRoute><MainLayout><Dashboard/></MainLayout></ProtectedRoute>
   },
   {
+    path:"/add-agent",
+    element: <ProtectedRoute><MainLayout><Signup role='agent'/></MainLayout></ProtectedRoute>
+  },
+  {
     path:"/signup",
     element:<MainLayout><Signup/></MainLayout>
   }

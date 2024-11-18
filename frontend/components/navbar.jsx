@@ -1,20 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
+
+import React, { useState,useEffect } from 'react'
+import Cookies from 'js-cookie'
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 
 export default function Navbar() {
+  const [loggedInStatus,setLoggedInStatus] = useState('false');
+  const role = Cookies.get('role');
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const accessToken = Cookies.get('accessToken'); // Get the access token from the cookie
 
   useEffect(() => {
-    // Check if the user is logged in by verifying the accessToken cookie
-    const token = Cookies.get('accessToken');
-    setIsLoggedIn(!!token);
-  }, []);
+    const verifyToken = async () => {
+      if (!accessToken) {
+        setLoggedInStatus(false);
+        return;
+      }
+
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/verify-token`, {
+          accessToken,
+        });
+        console.log(response)
+        if (response.status === 200) {
+          Cookies.set("role",response.data.role);
+          setLoggedInStatus(true);
+        } else {
+          setLoggedInStatus(false);
+        }
+      } catch (error) {
+        console.log(error)
+        setLoggedInStatus(false);
+      }
+    };
+
+    verifyToken();
+  }, [accessToken]);
 
   const logout = async () => {
     Cookies.remove('accessToken');
-    setIsLoggedIn(false);
+    Cookies.remove('role');
+    Cookies.remove('userId');
     navigate('/login');
   };
 
@@ -90,48 +117,14 @@ export default function Navbar() {
   );
 }
 
-
-
-// <div class="collapse navbar-collapse" id="navbarScroll">
-//       <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-//         <li class="nav-item">
-//           <a class="nav-link active" aria-current="page" href="#">Home</a>
-//         </li>
-//         <li class="nav-item">
-//           <a class="nav-link" href="#">Link</a>
-//         </li>
-//         <li class="nav-item dropdown">
-//           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-//             Link
-//           </a>
-//           <ul class="dropdown-menu">
-//             <li><a class="dropdown-item" href="#">Action</a></li>
-//             <li><a class="dropdown-item" href="#">Another action</a></li>
-//             <li><hr class="dropdown-divider"></li>
-//             <li><a class="dropdown-item" href="#">Something else here</a></li>
-//           </ul>
-//         </li>
-//         <li class="nav-item">
-//           <a class="nav-link disabled" aria-disabled="true">Link</a>
-//         </li>
-//       </ul>
-//       <form class="d-flex" role="search">
-//         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-//         <button class="btn btn-outline-success" type="submit">Search</button>
-//       </form>
-//     </div>
-   // <div className='navbar_create'>
-    //   <div className='navbar_left'>
-    //       <h1>Ticket Ease</h1>
-    //   </div>
-    //     <div className='navbar_right'>
-    //       <ul style={{display:"flex",gap:"1.2rem",alignItems:"center"}}>
-    //         <a href='/dashboard'>Dashboard</a>
-    //         <a href='/login' id='nav_login'>Login</a>
-    //         <a href='/signup' id='nav_signup'>Signup</a>
-    //         <a href='/ticket'>Raise Ticket</a>
-    //         <button onClick={logout}>Logout</button >
-    //       </ul>
-    //     </div>
-
-    // </div>
+//     <div className='navbar_create'>
+//       <div className='navbar_left'>
+//           <h1><a href="/">Ticket Ease</a></h1>
+//       </div>
+//         <div className='navbar_right'>
+//           <ul style={{display:"flex",gap:"2rem",alignItems:"center"}}>
+//             {loggedInStatus && <a href='/dashboard'>Dashboard</a>}
+//             {role === "admin" && <a href='/add-agent'>Add Agent</a>}
+//             {!loggedInStatus && <a href='/login'>Login</a>}
+//             <a href='/ticket'>Raise Ticket</a>
+//             {loggedInStatus && <button onClick={logout}>Logout</button >}

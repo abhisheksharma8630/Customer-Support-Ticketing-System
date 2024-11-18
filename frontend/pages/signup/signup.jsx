@@ -3,13 +3,13 @@ import { useState } from "react";
 import {useNavigate} from 'react-router-dom'
 import axios from "axios";
 
-export default function signup() {
+export default function signup({role = "customer"}) {
   const navigate = useNavigate(); // Import the useNavigate hook from react-router-dom
   const [user, setUser] = useState({
     name: "",
     email: "",
     password: "",
-    role: "customer",
+    role: role,
   });
 
   const handleChange = (e) => {
@@ -41,86 +41,62 @@ export default function signup() {
 
 
   return (
-    // <div className="login_container">
-    //   <div className="login_left">
-    //     <img
-    //       src="https://img.freepik.com/premium-photo/customer-support-team-providing-assistance-from-modern-call-center-daytime-hours_1143476-3349.jpg?semt=ais_hybrid"
-    //       className="slider"
-    //       alt=""
-    //     />
-    //   </div>
-    //   <div className="login_right">
-    //     <form
-    //       action=""
-    //       onSubmit={handleSubmit}
-    //       id="signup-form"
-    //       className="signupLoginform"
-    //     >
-    //       <h2>Sign Up</h2>
-    //       <label htmlFor="name">Name:</label>
-    //       <br />
-    //       <input
-    //         type="text"
-    //         id="name"
-    //         name="name"
-    //         value={user.name}
-    //         onChange={handleChange}
-    //         placeholder="Full Name"
-    //         required
-    //       />
-    //       <br />
-    //       <label htmlFor="email">Email:</label>
-    //       <br />
-    //       <input
-    //         type="email"
-    //         id="email"
-    //         name="email"
-    //         value={user.email}
-    //         onChange={handleChange}
-    //         placeholder="Email"
-    //         required
-    //       />
-    //       <br />
-    //       <label htmlFor="password">Password:</label>
-    //       <br />
-    //       <input
-    //         type="password"
-    //         id="password"
-    //         name="password"
-    //         value={user.password}
-    //         onChange={handleChange}
-    //         placeholder="Password"
-    //         required
-    //       />
-    //       <br />
-
-    //       <label htmlFor="role">Role:</label>
-    //       <br />
-    //       <select
-    //         name="role"
-    //         id="role"
-    //         value={user.role}
-    //         onChange={handleChange}
-    //       >
-    //         <option value="customer">Customer</option>
-    //         <option value="agent">Agent</option>
-    //       </select>
-    //       <br />
-    //       <button type="submit" id="signup-btn" className="btn-login">
-    //         Submit
-    //       </button>
-    //     </form>
-
-    //     <div className="login_last">
-    //       <p>
-    //         Already have an acount?{" "}
-    //         <a href="/login" id="login-btn" className="toggle-btn">
-    //           Login
-    //         </a>
-    //       </p>
-    //     </div>
-    //   </div>
-    // </div>
+    <div className="login_container">
+      <div className="login_left">
+        <img
+          src="https://img.freepik.com/premium-photo/customer-support-team-providing-assistance-from-modern-call-center-daytime-hours_1143476-3349.jpg?semt=ais_hybrid"
+          className="slider"
+          alt=""
+        />
+      </div>
+      <div className="login_right">
+        <form
+          action=""
+          onSubmit={handleSubmit}
+          id="signup-form"
+          className="form"
+        >
+          <h2>Sign Up</h2>
+          <label htmlFor="name">Name:</label>
+          <br />
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={user.name}
+            onChange={handleChange}
+            placeholder="Full Name"
+            required
+          />
+          <br />
+          <label htmlFor="email">Email:</label>
+          <br />
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={user.email}
+            onChange={handleChange}
+            placeholder="Email"
+            required
+          />
+          <br />
+          <label htmlFor="password">Password:</label>
+          <br />
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={user.password}
+            onChange={handleChange}
+            placeholder="Password"
+            required
+          />
+          <br />
+          <button type="submit" id="signup-btn" className="btn-login">
+            Submit
+          </button>
+        </form>
 
 
 
