@@ -47,7 +47,7 @@ export default function signup({ role = "customer" }) {
         <div className="signup-left"></div>
         <div className="signup-right">
           <div className="signup-part">
-            <h2>Create your account</h2>
+            <h2>{role == "customer" ? "Create Account" : "Add Agent"}</h2>
             <form className="signup-form" action="" onSubmit={handleSubmit}>
               <label htmlFor="fullName">Full Name:</label>
               <br />
@@ -81,26 +81,6 @@ export default function signup({ role = "customer" }) {
                   required
                 />
               </div>
-              <label htmlFor="Role">Role:</label>
-              <br />
-              <div className="signup-role">
-                <label htmlFor="role">
-                  <img
-                    src="https://www.shutterstock.com/image-vector/management-roles-icon-line-vector-260nw-2427069073.jpg"
-                    alt=""
-                  />
-                </label>
-                <select
-                  name="role"
-                  id="role"
-                  value={user.role}
-                  onChange={handleChange}
-                >
-                  <option value="customer">Customer</option>
-                  <option value="agent">Agent</option>
-                </select>
-              </div>
-
               <label htmlFor="pass">Password:</label>
               <br />
               <div className="signup-pass">
@@ -119,7 +99,7 @@ export default function signup({ role = "customer" }) {
                 <i className="fa-solid fa-eye" onClick={handleClick}></i>
               </div>
               <button type="submit" id="signup-btn">
-                Create Account
+                {role == "customer" ? "Create Account" : "Add Agent"}
               </button>
             </form>
             <div className="signup_last">

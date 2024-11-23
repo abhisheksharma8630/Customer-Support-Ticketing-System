@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
-export default function AgentDashboard({tickets}) {
+export default function AgentDashboard({ tickets }) {
   const truncateText = (text, length) => {
     return text.length > length ? text.substring(0, length) + "..." : text;
   };
@@ -13,6 +13,7 @@ export default function AgentDashboard({tickets}) {
         cellPadding="10"
         cellSpacing="0"
         style={{ width: "100%", borderCollapse: "collapse" }}
+        className="table"
       >
         <thead>
           <tr>
@@ -30,9 +31,11 @@ export default function AgentDashboard({tickets}) {
         <tbody>
           {tickets.map((ticket, idx) => (
             <tr key={idx}>
-              <a href={`/ticket/${ticket._id}`}>
-                <td>{truncateText(ticket.title, 25)}</td>
-              </a>
+              <td>
+                <a href={`/ticket/${ticket._id}`}>
+                  {truncateText(ticket.title, 25)}
+                </a>
+              </td>
               <td>{truncateText(ticket.description, 30)}</td>
               <td>{ticket.customer.name}</td>
               <td>{ticket.customer.email}</td>

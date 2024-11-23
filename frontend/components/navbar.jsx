@@ -1,15 +1,13 @@
-
-import React, { useState,useEffect } from 'react'
-import Cookies from 'js-cookie'
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
+import React, { useState, useEffect } from "react";
+import Cookies from "js-cookie";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Navbar() {
-  const [loggedInStatus,setLoggedInStatus] = useState(false);
-  const role = Cookies.get('role');
+  const [loggedInStatus, setLoggedInStatus] = useState(false);
+  const role = Cookies.get("role") || "customer";
   const navigate = useNavigate();
-  const accessToken = Cookies.get('accessToken'); // Get the access token from the cookie
+  const accessToken = Cookies.get("accessToken"); // Get the access token from the cookie
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -19,18 +17,21 @@ export default function Navbar() {
       }
 
       try {
-        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/verify-token`, {
-          accessToken,
-        });
-        console.log(response)
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/user/verify-token`,
+          {
+            accessToken,
+          }
+        );
+        console.log(response);
         if (response.status === 200) {
-          Cookies.set("role",response.data.role);
+          Cookies.set("role", response.data.role);
           setLoggedInStatus(true);
         } else {
           setLoggedInStatus(false);
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
         setLoggedInStatus(false);
       }
     };
@@ -39,10 +40,10 @@ export default function Navbar() {
   }, [accessToken]);
 
   const logout = async () => {
-    Cookies.remove('accessToken');
-    Cookies.remove('role');
-    Cookies.remove('userId');
-    navigate('/login');
+    Cookies.remove("accessToken");
+    Cookies.remove("role");
+    Cookies.remove("userId");
+    navigate("/login");
   };
 
   return (
@@ -69,7 +70,10 @@ export default function Navbar() {
         >
           <span className="navbar-toggler-icon btn btn-light"></span>
         </button>
-        <div className="collapse navbar-collapse justify-content-end" id="navbarScroll">
+        <div
+          className="collapse navbar-collapse justify-content-end"
+          id="navbarScroll"
+        >
           <ul className="navbar-nav">
             <li className="nav-item mx-2">
               <a href="/#features" className="navbar-brand text-light">
@@ -83,13 +87,21 @@ export default function Navbar() {
                     Dashboard
                   </a>
                 </li>
+                {role == "admin" && (
+                  <li className="nav-item mx-2">
+                    <a href="/add-agent" className="navbar-brand text-light">
+                      Add Agent
+                    </a>
+                  </li>
+                )}
               </>
             )}
-                <li className="nav-item mx-2">
-                  <a href="/ticket" className="navbar-brand text-light">
-                    Raise Ticket
-                  </a>
-                </li>
+            {role == "customer" &&
+            <li className="nav-item mx-2">
+              <a href="/ticket" className="navbar-brand text-light">
+                Raise Ticket
+              </a>
+            </li>}
           </ul>
           <div className="d-flex ms-3">
             {loggedInStatus ? (

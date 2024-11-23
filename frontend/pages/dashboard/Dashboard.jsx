@@ -33,21 +33,29 @@ export default function Dashboard() {
     const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/ticket/${status}`,{headers:{
       Authorization:`Bearer ${Cookies.get('accessToken')}`
     }});
+    console.log(response);
     setTickets(response.data);
   }
+
+  const updateTicketAgent = (ticketId, agentId) => {
+    fetchTickets("");
+  };
 
   useEffect(()=>{
     fetchTickets("");
   },[])
   return (
     <div>
-      <div>
-        <button onClick={()=>fetchTickets("")}>All</button>
-        <button onClick={()=>fetchTickets("?status=open")}>Open</button>
-        <button onClick={()=>fetchTickets("?status=resolved")}>Resolved</button>        
+      <div className='d-flex'>
+        <button className='btn btn-sm btn-primary m-2'  onClick={()=>fetchTickets("")}>All</button>
+        <button className='btn btn-sm btn-primary m-2' onClick={()=>fetchTickets("?status=open")}>Open</button>
+        <button className='btn btn-sm btn-primary m-2' onClick={()=>fetchTickets("?status=resolved")}>Resolved</button>        
+        <button className='btn btn-sm btn-primary m-2' onClick={()=>fetchTickets("?status=closed")}>Closed</button>        
+        <button className='btn btn-sm btn-primary m-2' onClick={()=>fetchTickets("?status=in-progress")}>In-Progress</button>        
+        <button className='btn btn-sm btn-primary m-2' onClick={()=>fetchTickets("?status=on-hold")}>On-Hold</button>        
       </div>
       {role === 'agent' && <AgentDashboard tickets={tickets}/>}
-      {role === 'admin' && <AdminDashboard tickets={tickets} />}
+      {role === 'admin' && <AdminDashboard tickets={tickets} updateTicketAgent={updateTicketAgent}/>}
       {role === 'customer' && <CustomerDashboard tickets={tickets} />}
       {/* Add your other dashboard components here */}
     </div>

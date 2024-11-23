@@ -1,6 +1,7 @@
 
 import AdminDashboard from '../components/adminDashboard'
 import AgentDashboard from '../components/agentDashboard'
+import { OTPInput } from '../components/otpInput'
 import TicketDisplay from '../components/ticketpage'
 import TicketPage from '../pages/Ticket/ticket'
 import Landing from '../pages/landing/landing'

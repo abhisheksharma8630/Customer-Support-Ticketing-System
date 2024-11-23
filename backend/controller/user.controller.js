@@ -26,7 +26,7 @@ export const signup = async (req, res) => {
             await agent.save();
             res.status(201).json({ message: "Agent signup successful" });
         } else if (role === 'customer') {
-            const user = new User({ name, email, password, role });
+            const user = new Customer({ name, email, password, role });
             await user.save();
             res.status(201).json({ message: "User signup successful" });
         } else {
@@ -90,7 +90,6 @@ export const verifyToken = async (req, res) => {
         return res.status(404).send({ message: "User not found" });
       }
   
-      console.log("User verified successfully");
       return res.status(200).send({
         message: "User verified successfully",
         role: user.role,
@@ -120,31 +119,54 @@ export const logout = (req, res) => {
 }
 
 export const getAgents = async (req, res) => {
-    const agents = await Agent.aggregate([
-        {
-            $match: {
-                isAvailable: true
-            }
-        }, {
-            $project: {
-                name: 1
-            }
-        }
-    ]);
-    // const agents = await User.aggregate([
-    //     {
-    //         $match:{
-    //             role:"agent"
-    //         }
-    //     },{
-    //         $project:{
-    //             name:1,
-    //         }
-    //     }
-    // ]);
-    console.log(agents);
-    res.json(agents)
-}
+    try {
+        const agents = await Agent.aggregate([
+            {
+                $lookup: {
+                    from: "tickets", // The name of the Ticket collection
+                    localField: "assignedTickets",
+                    foreignField: "_id",
+                    as: "ticketDetails",
+                },
+            },
+            {
+                $addFields: {
+                    activeTickets: {
+                        $filter: {
+                            input: "$ticketDetails",
+                            as: "ticket",
+                            cond: { $ne: ["$$ticket.status", "closed"] },
+                        },
+                    },
+                },
+            },
+            {
+                $addFields: {
+                    assignedTicketsCount: { $size: "$activeTickets" },
+                },
+            },
+            {
+                $project: {
+                    name: 1,
+                    assignedTicketsCount: 1,
+                },
+            },
+            {
+                $sort: {
+                    assignedTicketsCount: -1, // Sort in descending order
+                },
+            },
+        ]);
+
+        console.log(agents);
+        res.json(agents);
+    } catch (error) {
+        console.error("Error fetching agents:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+
 
 export const assignAgent = async (req, res) => {
     const { agentId, ticketId } = req.body;
@@ -167,6 +189,7 @@ export const assignAgent = async (req, res) => {
 
         // Assign agent to the ticket and push the ticket to the agent's assignedTickets
         ticket.agent = agentId;
+        ticket.updatedAt = Date.now();
         agent.assignedTickets.push(ticketId);
         agent.isAvailable = false;
 

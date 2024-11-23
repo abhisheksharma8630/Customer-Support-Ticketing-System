@@ -17,6 +17,7 @@ export default function CustomerDashboard({tickets}) {
         cellPadding="10"
         cellSpacing="0"
         style={{ width: "100%", borderCollapse: "collapse" }}
+        className="table"
       >
         <thead>
           <tr>
@@ -31,9 +32,11 @@ export default function CustomerDashboard({tickets}) {
         <tbody>
           {tickets.map((ticket, idx) => (
             <tr key={idx}>
+              <td>
               <a href={`/ticket/${ticket._id}`}>
-                <td>{truncateText(ticket.title, 25)}</td>
+                {truncateText(ticket.title, 25)}
               </a>
+              </td>
               <td>{truncateText(ticket.description, 30)}</td>
               <td>{ticket.status}</td>
               <td>{ticket.category}</td>

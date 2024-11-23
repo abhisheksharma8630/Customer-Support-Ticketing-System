@@ -1,16 +1,19 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { OTPInput } from "../../components/otpInput";
 import axios from "axios";
 const RaiseTicket = () => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
-  const [otpSent, setOtpSent] = useState(true);
-  const [otpVerified, setOtpVerified] = useState(true);
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
 
   const handleSendOtp = async (e) => {
     e.preventDefault();
@@ -56,10 +59,13 @@ const RaiseTicket = () => {
         `${import.meta.env.VITE_BACKEND_URL}/ticket`,
         { email, title, description, category }
       );
-      console.log(response);
-      alert("Form submitted!");
+      if (response.status == 201) {
+        alert("Ticket Created Successfully");
+        navigate("/login");
+      }
     } catch (error) {
-      console.log("error");
+      alert("Failed to create the Ticket");
+      console.log("error: ", error);
     }
   };
 
@@ -92,32 +98,32 @@ const RaiseTicket = () => {
                 {success && <p className="error">{success}</p>}
 
                 {!otpSent && (
-                  <div className="input-group">
-                    <label>Email:</label>
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Enter your email"
-                      required
-                    />
-                    <button onClick={handleSendOtp} disabled={loading}>
+                  <div class="row mb-3">
+                    <div class="col-sm-10 w-100 p-0 mt-2 mb-2">
+                      <input
+                        type="email"
+                        className="form-control"
+                        id="inputEmail3"
+                        placeholder="Enter your email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </div>
+                    <button className="btn btn-primary rounded" onClick={handleSendOtp} disabled={loading}>
                       Send OTP
                     </button>
                   </div>
                 )}
 
                 {otpSent && !otpVerified && (
-                  <div className="input-group">
+                  <div className="">
                     <label>OTP:</label>
-                    <input
-                      type="text"
-                      value={otp}
-                      onChange={(e) => setOtp(e.target.value)}
-                      placeholder="Enter the OTP"
-                      required
+                    <OTPInput
+                      length={6} // Define OTP length
+                      onChange={(enteredOtp) => setOtp(enteredOtp.join(""))} // Collect the OTP as a string
                     />
-                    <button onClick={handleVerifyOtp}>Verify OTP</button>
+                    <button className="btn btn-primary mt-2" onClick={handleVerifyOtp}>Verify OTP</button>
                   </div>
                 )}
               </form>
