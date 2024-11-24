@@ -81,7 +81,7 @@ const Landing = () => {
     </section>
 
     <footer id="footer">
-        <p>&copy; 2024 TechEase. Built with ❤️ by our team.</p>
+        <p>&copy; 2024 TicketEase. Built with ❤️ by our team.</p>
     </footer>
     </div>
   )

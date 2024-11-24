@@ -5,16 +5,15 @@ import { OTPInput } from "./otpInput";
 
 const TicketDisplay = ({ ticketId, userType = "agent" }) => {
   const [ticket, setTicket] = useState({
-    title:"Ticket_Title",
-    description:"Ticket_description",
-    status:"open"
+    title: "Ticket_Title",
+    description: "Ticket_description",
+    status: "open",
   });
   const [status, setStatus] = useState("");
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
   const [otpSend, setOtpSend] = useState(false);
   const [otp, setOtp] = useState("");
-
 
   const fetchTicket = async () => {
     try {
@@ -115,7 +114,7 @@ const TicketDisplay = ({ ticketId, userType = "agent" }) => {
       <p>
         <strong>Assigned Agent:</strong> {ticket?.agent?.name || "Unassigned"}
       </p>
-      {ticket.status != "closed" && (
+      {ticket.status != "closed" && (!otpSend ? (
         <button
           type="button"
           className="btn btn-secondary btn-sm"
@@ -123,8 +122,7 @@ const TicketDisplay = ({ ticketId, userType = "agent" }) => {
         >
           {!otpSend ? "Close this ticket" : "Resend Otp"}
         </button>
-      )}
-      {otpSend && (
+      ) : (
         <div>
           Enter Client OTP to close Ticket{" "}
           <form action="" onSubmit={handleOtpSubmit}>
@@ -135,7 +133,7 @@ const TicketDisplay = ({ ticketId, userType = "agent" }) => {
             <button className="btn btn-primary">Submit</button>
           </form>
         </div>
-      )}
+      ))}
       <h3>History</h3>
       <div className="history-list">
         {ticket?.history?.map((entry, index) => (
@@ -175,7 +173,9 @@ const TicketDisplay = ({ ticketId, userType = "agent" }) => {
             placeholder="Add notes about the update..."
           ></textarea>
 
-          <button onClick={handleStatusUpdate} disabled={loading}>Update Status</button>
+          <button onClick={handleStatusUpdate} disabled={loading}>
+            Update Status
+          </button>
         </div>
       )}
     </div>
