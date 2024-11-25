@@ -44,7 +44,7 @@
 
 .signup-right h2{
     font-size: 30px;
-    opacity: 0.7;
+    
     margin-bottom: 30px;
 }
 
@@ -207,7 +207,6 @@
 
 .login-right h2{
     font-size: 30px;
-    opacity: 0.7;
     margin-bottom: 30px;
 }
 
@@ -610,7 +609,7 @@
     margin-left: 1rem;
     margin-bottom: 3rem;
 }
-label{
+.label{
     margin-left: 1rem;
     opacity: 0.7;
     font-size: 0.9rem;
@@ -633,15 +632,6 @@ label{
     width: 24rem;
     /* font-size: 1rem; */
     border-radius: 0.3rem;
-}
-.raise-form button{
-    margin-left: 1rem;
-    text-align: center;
-    height: 2.7rem;
-    width: 24rem;
-    border-radius: 0.5rem;
-    background-color: #0077ff;
-    border: 1px solid #0077ff;
 }
 
 
