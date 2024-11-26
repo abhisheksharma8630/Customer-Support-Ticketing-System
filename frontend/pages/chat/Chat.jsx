@@ -10,7 +10,7 @@ const RaiseTicket = () => {
   const [otpVerified, setOtpVerified] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("general");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
@@ -137,6 +137,7 @@ const RaiseTicket = () => {
                   <br />
                   <input
                     type="text"
+                    className="w-100 m-0 "
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="Enter title"
@@ -144,16 +145,15 @@ const RaiseTicket = () => {
                   />
                 </div>
                 <br />
-                <div className="input-group">
-                  <label>Category:</label>
-                  <br />
-                  <input
-                    type="text"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    placeholder="Enter category"
-                    required
-                  />
+                <div className="input-group" style={{display:"flex",flexDirection:"column"}}>
+                  <label htmlFor="category">Category:</label>
+                  <select className="form-select rounded w-100" name="category" id="category" value={category} onChange={(e)=>setCategory(e.target.value)}>
+                    <option value="general" selected>General</option>
+                    <option value="technical">Technical</option>
+                    <option value="billing">Billing</option>
+                    <option value="account">Account</option>
+                    <option value="other">Other</option>
+                  </select>
                 </div>
                 <br />
                 <div className="input-group">
@@ -164,11 +164,12 @@ const RaiseTicket = () => {
                     id="raise-description"
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Enter description"
+                    className="w-100 m-0 p-2"
                     required
                   ></textarea>
                 </div>
                 <br />
-                <button className="raise-button" type="submit">
+                <button className="btn btn-primary" type="submit">
                   Submit
                 </button>
               </form>

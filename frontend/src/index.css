@@ -615,7 +615,6 @@
     font-size: 0.9rem;
 }
 .raise-form input{
-    margin-left: 1rem !important;
     margin-top: 0.3rem !important;
     height: 2.7rem;
     width: 24rem;
@@ -633,23 +632,3 @@
     /* font-size: 1rem; */
     border-radius: 0.3rem;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
