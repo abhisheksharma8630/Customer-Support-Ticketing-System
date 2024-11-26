@@ -3,7 +3,7 @@ export const createOtp = () => {
 };
 
 export function generateRandomPassword(length = 10) {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let password = "";
   
     for (let i = 0; i < length; i++) {
