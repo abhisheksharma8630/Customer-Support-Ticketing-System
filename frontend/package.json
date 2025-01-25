@@ -10,7 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
+    "@mui/icons-material": "^6.1.9",
+    "@mui/material": "^6.1.9",
+    "@mui/system": "^6.1.9",
+    "@mui/x-charts": "^7.23.0",
+    "@mui/x-data-grid": "^7.23.0",
+    "@mui/x-date-pickers": "^7.23.0",
+    "@mui/x-tree-view": "^7.23.0",
     "axios": "^1.7.7",
+    "dayjs": "^1.11.13",
     "js-cookie": "^3.0.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

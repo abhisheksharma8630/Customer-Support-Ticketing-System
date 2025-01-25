@@ -52,43 +52,91 @@ export const createTicket = async (req, res) => {
 
 export const getTickets = async (req, res) => {
   try {
-    // Initialize the filter object
-    const filter = {};
+    // Initialize the filter object for match stage
+    const matchFilter = {};
     if (req.query.status) {
-      filter.status = req.query.status; // Add 'status' to filter only if provided
+      matchFilter.status = req.query.status; // Add 'status' to match filter only if provided
     }
 
-    let tickets;
-
+    // Determine role-specific match filters
     if (req.user.user.role === "agent") {
-      // Agent can view tickets assigned to them
-      tickets = await Ticket.find({ agent: req.user.user._id, ...filter }).populate({
-        path: "customer",
-        select: "-password",
-      });
-    } else if (req.user.user.role === "admin") {
-      // Admin can view all tickets with the filter
-      tickets = await Ticket.find({ ...filter }).populate({
-        path: "customer",
-        select: "-password",
-      }).populate({
-        path:"agent",
-        select:"name",
-        // match:{$ne:null}
-      });
-
-      // Sort tickets by priority
-      tickets = tickets.sort((a, b) => {
-        const priorityOrder = { high: 1, medium: 2, low: 3 };
-        return priorityOrder[a.priority] - priorityOrder[b.priority];
-      });
-    } else {
-      // Customers can only view their tickets
-      tickets = await Ticket.find({ customer: req.user.user._id, ...filter }).populate({
-        path: "customer",
-        select: "-password",
-      });
+      matchFilter.agent = req.user.user._id; // Agent-specific filter
+    } else if (req.user.user.role === "customer") {
+      matchFilter.customer = req.user.user._id; // Customer-specific filter
     }
+
+    // Aggregation pipeline
+    const pipeline = [
+      { $match: matchFilter }, // Match based on filters
+      {
+        $lookup: {
+          from: "users", // Lookup customer details
+          localField: "customer",
+          foreignField: "_id", 
+          as: "customer",
+        },
+      },
+      {
+        $lookup: {
+          from: "users", // Lookup agent details
+          localField: "agent",
+          foreignField: "_id",
+          as: "agent",
+        },
+      },
+      {
+        $unwind: {
+          path: "$customer",
+          preserveNullAndEmptyArrays: true, // Keep tickets without a customer populated
+        },
+      },
+      {
+        $unwind: {
+          path: "$agent",
+          preserveNullAndEmptyArrays: true, // Keep tickets without an agent populated
+        },
+      },
+      {
+        $addFields: {
+          customerName: "$customer.name", // Combine customer name
+          agentName:"$agent.name"
+        },
+      },
+      {
+        $project: {
+          title: 1,
+          category: 1,
+          status: 1,
+          priority: 1,
+          createdAt: 1,
+          updatedAt: 1,
+          customerName:1,
+          agentName:1,
+        },
+      },
+    ];
+
+    // Sort tickets by priority for admins
+    if (req.user.user.role === "admin") {
+      pipeline.push({
+        $addFields: {
+          priorityOrder: {
+            $switch: {
+              branches: [
+                { case: { $eq: ["$priority", "high"] }, then: 1 },
+                { case: { $eq: ["$priority", "medium"] }, then: 2 },
+                { case: { $eq: ["$priority", "low"] }, then: 3 },
+              ],
+              default: 4,
+            },
+          },
+        },
+      });
+      pipeline.push({ $sort: { priorityOrder: 1 } }); // Sort by priority
+    }
+
+    // Execute the aggregation pipeline
+    const tickets = await Ticket.aggregate(pipeline);
 
     res.status(200).json(tickets);
   } catch (error) {
