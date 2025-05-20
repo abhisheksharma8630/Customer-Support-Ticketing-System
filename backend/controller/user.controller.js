@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { Ticket } from '../models/ticket.js';
-import { Agent, User } from '../models/user.js';
+import { Agent, Customer, User } from '../models/user.js';
 import { generateToken } from '../utils/generateToken.js';
 import jwt from 'jsonwebtoken'
 import { createOtp } from '../utils/helper.js';
@@ -29,7 +29,7 @@ export const signup = async (req, res) => {
         } else if (role === 'customer') {
             const user = new Customer({ name, email, password, role });
             await user.save();
-            res.status(201).json({ message: "User signup successful" });
+            res.status(201).json({ message: "User signup successfully" });
         } else {
             return res.status(403).json({ error: "Unauthorized role" });
         }
@@ -41,28 +41,29 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
     try {
+        console.log(req.body);
         const { email, password } = req.body;
 
         // Check if email and password are provided
         if (!email || !password) {
-            return res.status(400).json({ message: "Email and password are required" });
+            return res.status(400).json({ error: "Email and password are required" });
         }
 
         // Find user by email
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(404).json({ message: "User does not exist" });
+            return res.status(404).json({ error: "User does not exist" });
         }
 
         // Verify password
         const isMatch = password === user.password; // Ideally use bcrypt for hashing
         if (!isMatch) {
-            return res.status(401).json({ message: "Incorrect password" });
+            return res.status(401).json({ error: "Incorrect password" });
         }
 
         // Generate token
         const token = generateToken(user);
-        res.status(200).json({ token, user });
+        res.status(200).json({message: "User Logged In Successfull",token});
 
     } catch (error) {
         console.error("Login error:", error);

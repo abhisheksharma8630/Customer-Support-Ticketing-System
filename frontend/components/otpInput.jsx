@@ -1,6 +1,6 @@
 import { useState,useRef } from "react";
 
-export const OTPInput = ({ length = 6, onChange }) => {
+export default function OTPInput({ length = 6, onChange }) {
     const [otp, setOtp] = useState(Array(length).fill(""));
     const inputs = useRef([]);
   
