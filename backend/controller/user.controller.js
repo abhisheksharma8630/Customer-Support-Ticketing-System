@@ -5,6 +5,7 @@ import { generateToken } from '../utils/generateToken.js';
 import jwt from 'jsonwebtoken'
 import { createOtp } from '../utils/helper.js';
 import sendMail from '../utils/sendEmail.js'
+import { Customer } from '../models/user.js';
 
 export const signup = async (req, res) => {
     try {
@@ -171,46 +172,32 @@ export const getAgents = async (req, res) => {
 export const assignAgent = async (req, res) => {
     const { agentId, ticketId } = req.body;
 
-    // Start a session for the transaction
-    const session = await mongoose.startSession();
-    session.startTransaction();
-
     try {
-        // Find the agent and ticket within the transaction session
-        const agent = await Agent.findOne({ _id: agentId }).session(session);
-        const ticket = await Ticket.findById(ticketId).session(session);
+        // Find agent and ticket
+        const agent = await Agent.findById(agentId);
+        const ticket = await Ticket.findById(ticketId);
 
         if (!agent || !ticket) {
-            // If either agent or ticket is not found, abort the transaction and return a 404 error
-            await session.abortTransaction();
-            session.endSession();
             return res.status(404).json({ message: "Agent or Ticket not found" });
         }
 
-        // Assign agent to the ticket and push the ticket to the agent's assignedTickets
+        // Update ticket and agent
         ticket.agent = agentId;
         ticket.updatedAt = Date.now();
         agent.assignedTickets.push(ticketId);
         agent.isAvailable = false;
 
-        // Save both documents within the transaction
-        await ticket.save({ session });
-        await agent.save({ session });
-
-        // Commit the transaction if both saves are successful
-        await session.commitTransaction();
-        session.endSession();
+        // Save updates
+        await ticket.save();
+        await agent.save();
 
         res.status(200).json({ message: "Agent assigned successfully" });
     } catch (error) {
-        // Rollback any changes made within the transaction if an error occurs
-        await session.abortTransaction();
-        session.endSession();
-
         console.error("Error assigning agent:", error);
         res.status(500).json({ message: "An error occurred while assigning the agent", error: error.message });
     }
-}
+};
+
 
 const OTP_STORE = {};
 
